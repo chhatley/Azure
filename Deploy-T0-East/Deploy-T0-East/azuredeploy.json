@@ -13,6 +13,10 @@
         "West US"
       ]
     },
+    "T0 Storage Account Name": {
+      "type": "string",
+      "defaultValue": "t0addsstorage"
+    },
     "T0 ADDS Resource Group Name": {
       "type": "string",
       "defaultValue": "T0-ADDS-East-RG"
@@ -24,22 +28,77 @@
     "Global vNet Resource Group Name": {
       "type": "string",
       "defaultValue": "GL-vNet-East-RG"
+    },
+    "t0storageType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
+    },
+    "_artifactsLocation": {
+      "type": "https://github.com/chhatley/Azure/tree/master/Deploy-T0-East/Deploy-T0-East"
     }
   },
-  "variables": {},
+  "variables": {
+    "t0storageName": "[concat('t0storage', uniqueString(resourceGroup().id))]",
+    "Deploy ADDS Availability SetTemplateFolder": "nestedtemplates",
+    "Deploy ADDS Availability SetTemplateFileName": "Deploy ADDS Availability Set.json",
+    "Deploy ADDS Availability SetTemplateParametersFileName": "Deploy ADDS Availability Set.parameters.json"},
   "resources": [
     {
       "type": "Microsoft.Resources/resourceGroups",
       "apiVersion": "2018-05-01",
       "location": "[parameters('Location')]",
-      "name": "[parameters('T0 ADDS Resource Group Name')]",
+      "name": "[parameters('T0 ADDS Resource Group Name')]"
     },
     {
       "type": "Microsoft.Resources/resourceGroups",
       "apiVersion": "2018-05-01",
       "location": "[parameters('Location')]",
-      "name": "[parameters('T0 NSG Resource Group Name')]",
+      "name": "[parameters('T0 NSG Resource Group Name')]"
+    },
+    {
+      "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2018-05-01",
+      "location": "[parameters('Location')]",
+      "name": "[parameters('Global vNet Resource Group Name')]"
+    },
+    {
+      "name": "[parameters('T0 Storage Account Name')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "resourceGroup": "[parameters('T0 ADDS Resource Group Name')]",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-01-01",
+      "sku": {
+        "name": "[parameters('t0storageType')]"
+      },
+      "dependsOn": [],
+      "tags": {
+        "displayName": "t0storage"
+      },
+      "kind": "Storage"
+    },
+    {
+      "name": "Deploy ADDS Availability Set",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [ ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/', variables('Deploy ADDS Availability SetTemplateFolder'), '/', variables('Deploy ADDS Availability SetTemplateFileName'), parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parametersLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/', variables('Deploy ADDS Availability SetTemplateFolder'), '/', variables('Deploy ADDS Availability SetTemplateParametersFileName'), parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        }
+      }
     }
-  ],
-  "outputs": {}
+  ]
 }

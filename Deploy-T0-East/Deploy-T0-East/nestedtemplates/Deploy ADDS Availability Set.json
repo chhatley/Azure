@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "T0 ADDS Availability Set": {
+      "type": "string",
+      "defaultValue": "T0-ADDS-AS-01"
+    },
+    "T0 ADDS Resource Group Name": {
+      "type": "string",
+      "defaultValue": "T0-ADDS-East-RG"
+    }
+    },
+    "variables": {},
+    "resources": [
+      {
+        "name": "[parameters('T0 ADDS Availability Set')]",
+        "type": "Microsoft.Compute/availabilitySets",
+        "resourceGroup": "[parameters('T0 ADDS Resource Group Name')]",
+        "location": "[resourceGroup().location]",
+        "apiVersion": "2015-06-15",
+        "dependsOn": [],
+        "tags": {
+          "displayName": "T0-ADDS-AS-01"
+        },
+        "properties": {
+          "platformUpdateDomainCount": 1,
+          "platformFaultDomainCount": 1
+        }
+      }
+    ],
+    "outputs": {}
+  }
