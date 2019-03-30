@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "_artifactsLocation": {
-      "type": "string"
+      "type": "https://github.com/chhatley/Azure/tree/master/DeployADDS/DeployADDS"
     },
     "_artifactsLocationSasToken": {
       "type": "securestring"

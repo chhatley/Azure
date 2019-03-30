@@ -29,6 +29,36 @@
       <Visible>False</Visible>
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
+    <Content Include="nestedtemplates\Deploy-GL-vNet-RG.json" />
+    <Content Include="nestedtemplates\Deploy-GL-vNet-RG.parameters.json" />
+    <Content Include="nestedtemplates\Deploy-GL-vNET-01.json" />
+    <Content Include="nestedtemplates\Deploy-GL-vNET-01.parameters.json" />
+    <Content Include="nestedtemplates\Deploy-GL-AS-SN-01.json" />
+    <Content Include="nestedtemplates\Deploy-GL-AS-SN-01.parameters.json" />
+    <Content Include="nestedtemplates\Deploy-T0-ADDS-RG.json" />
+    <Content Include="nestedtemplates\Deploy-T0-ADDS-RG.parameters.json" />
+    <Content Include="nestedtemplates\Deploy-T0-ADDS-AvailabilitySet.json" />
+    <Content Include="nestedtemplates\Deploy-T0-ADDS-AvailabilitySet.parameters.json" />
+    <Content Include="nestedtemplates\Deploy-ADDS-DC-02-NIC.json" />
+    <Content Include="nestedtemplates\Deploy-ADDS-DC-02-NIC.parameters.json" />
+    <Content Include="nestedtemplates\Deploy-ADDS-JS-01-NIC.json" />
+    <Content Include="nestedtemplates\Deploy-ADDS-JS-01-NIC.parameters.json" />
+    <Content Include="nestedtemplates\Deploy-T0-NSG-RG.json" />
+    <Content Include="nestedtemplates\Deploy-T0-NSG-RG.parameters.json" />
+    <Content Include="nestedtemplates\Deploy-T0-DC-02.json" />
+    <Content Include="nestedtemplates\Deploy-T0-DC-02.parameters.json" />
+    <Content Include="nestedtemplates\Deploy-T0-JS-01.json" />
+    <Content Include="nestedtemplates\Deploy-T0-JS-01.parameters.json" />
+    <Content Include="nestedtemplates\Deploy-JS-LoadBalancer.json" />
+    <Content Include="nestedtemplates\Deploy-JS-LoadBalancer.parameters.json" />
+    <Content Include="nestedtemplates\Deploy-T0-ASG-DC-to-JS.json" />
+    <Content Include="nestedtemplates\Deploy-T0-ASG-DC-to-JS.parameters.json" />
+    <Content Include="nestedtemplates\Deploy-T0-ASG-JS-to-Public-RDP.json" />
+    <Content Include="nestedtemplates\Deploy-T0-ASG-JS-to-Public-RDP.parameters.json" />
+    <Content Include="nestedtemplates\Deploy-T0-NSG.json" />
+    <Content Include="nestedtemplates\Deploy-T0-NSG.parameters.json" />
+    <Content Include="nestedtemplates\Deploy-NSG-Rules.json" />
+    <Content Include="nestedtemplates\Deploy-NSG-Rules.parameters.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
