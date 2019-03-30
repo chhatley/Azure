@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "Location": {
+      "type": "string",
+      "defaultValue": "East Us",
+      "allowedValues": [
+        "East US",
+        "Central US",
+        "North Central US",
+        "South Central US",
+        "West US"
+      ]
+    },
+    "T0 ADDS Resource Group Name": {
+      "type": "string",
+      "defaultValue": "T0-ADDS-East-RG"
+    },
+    "T0 NSG Resource Group Name": {
+      "type": "string",
+      "defaultValue": "T0-NSG-East-RG"
+    },
+    "Global vNet Resource Group Name": {
+      "type": "string",
+      "defaultValue": "GL-vNet-East-RG"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2018-05-01",
+      "location": "[parameters('Location')]",
+      "name": "[parameters('T0 ADDS Resource Group Name')]",
+    },
+    {
+      "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2018-05-01",
+      "location": "[parameters('Location')]",
+      "name": "[parameters('T0 NSG Resource Group Name')]",
+    }
+  ],
+  "outputs": {}
+}
