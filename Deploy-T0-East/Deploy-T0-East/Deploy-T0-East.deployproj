@@ -29,6 +29,8 @@
       <Visible>False</Visible>
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
+    <Content Include="nestedtemplates\Deploy ADDS Availability Set.json" />
+    <Content Include="nestedtemplates\Deploy ADDS Availability Set.parameters.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
