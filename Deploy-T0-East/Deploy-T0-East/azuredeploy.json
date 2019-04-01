@@ -43,8 +43,6 @@
   },
   "variables": {
     "t0storageName": "[concat('t0storage', uniqueString(resourceGroup().id))]",
-    "_artifcatsLocation": null,
-    "https": null, //github.com/chhatley/Azure/tree/master/Deploy-T0-East/Deploy-T0-East,
     "_artifactsLocation": "https://github.com/chhatley/Azure/tree/master/Deploy-T0-East/Deploy-T0-East",
     "Deploy ADDS Availability SetTemplateFolder": "nestedtemplates",
     "Deploy ADDS Availability SetTemplateFileName": "Deploy ADDS Availability Set.json",
