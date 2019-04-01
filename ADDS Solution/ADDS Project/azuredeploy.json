@@ -1,8 +1,83 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "parameters": {},
-  "variables": {},
-  "resources": [],
+  "parameters": {
+    "Location" {
+      "type": "string",
+      "defaultValue": "EastUS",
+      "allowedValues": [
+        "EastUS2",
+        "CentralUS",
+        "SouthCentralUS",
+        "NorthCentralUS",
+        "WestUS"
+      ]
+    }
+  },
+  "variables": {
+    "_artifactsLocation": "https://github.com/chhatley/Azure/tree/master/ADDS%20Solution/ADDS%20Project",
+    "Create T0 ADDS Resource GroupTemplateFolder": "nestedtemplates",
+    "Create T0 ADDS Resource GroupTemplateFileName": "Create T0 ADDS Resource Group.json",
+    "Create T0 ADDS Resource GroupTemplateParametersFileName": "Create T0 ADDS Resource Group.parameters.json",
+    "Create T0 NSG Resource GroupTemplateFolder": "nestedtemplates",
+    "Create T0 NSG Resource GroupTemplateFileName": "Create T0 NSG Resource Group.json",
+    "Create T0 NSG Resource GroupTemplateParametersFileName": "Create T0 NSG Resource Group.parameters.json",
+    "Create GL vNet Resource GroupTemplateFolder": "nestedtemplates",
+    "Create GL vNet Resource GroupTemplateFileName": "Create GL vNet Resource Group.json",
+    "Create GL vNet Resource GroupTemplateParametersFileName": "Create GL vNet Resource Group.parameters.json"
+  },
+  "resources": [
+    {
+      "name": "Create T0 ADDS Resource Group",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [ ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('_artifactsLocation'), '/', variables('Create T0 ADDS Resource GroupTemplateFolder'), '/', variables('Create T0 ADDS Resource GroupTemplateFileName'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parametersLink": {
+          "uri": "[concat(variables('_artifactsLocation'), '/', variables('Create T0 ADDS Resource GroupTemplateFolder'), '/', variables('Create T0 ADDS Resource GroupTemplateParametersFileName'))]",
+          "contentVersion": "1.0.0.0"
+        }
+      }
+    },
+    {
+      "name": "Create T0 NSG Resource Group",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [ ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('_artifactsLocation'), '/', variables('Create T0 NSG Resource GroupTemplateFolder'), '/', variables('Create T0 NSG Resource GroupTemplateFileName'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parametersLink": {
+          "uri": "[concat(variables('_artifactsLocation'), '/', variables('Create T0 NSG Resource GroupTemplateFolder'), '/', variables('Create T0 NSG Resource GroupTemplateParametersFileName'))]",
+          "contentVersion": "1.0.0.0"
+        }
+      }
+    },
+    {
+      "name": "Create GL vNet Resource Group",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [ ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('_artifactsLocation'), '/', variables('Create GL vNet Resource GroupTemplateFolder'), '/', variables('Create GL vNet Resource GroupTemplateFileName'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parametersLink": {
+          "uri": "[concat(variables('_artifactsLocation'), '/', variables('Create GL vNet Resource GroupTemplateFolder'), '/', variables('Create GL vNet Resource GroupTemplateParametersFileName'))]",
+          "contentVersion": "1.0.0.0"
+        }
+      }
+    }
+    ],
   "outputs": {}
 }
