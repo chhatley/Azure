@@ -31,6 +31,12 @@
     <Content Include="Deploy-AzureResourceGroup.ps1" />
     <Content Include="nestedtemplates\Create T0 ADDS Resouce Group.json" />
     <Content Include="nestedtemplates\Create T0 ADDS Resouce Group.parameters.json" />
+    <Content Include="nestedtemplates\Creat T0 NSG Resource Group.json" />
+    <Content Include="nestedtemplates\Creat T0 NSG Resource Group.parameters.json" />
+    <Content Include="nestedtemplates\Create T0 NSG Resource Group.json" />
+    <Content Include="nestedtemplates\Create T0 NSG Resource Group.parameters.json" />
+    <Content Include="nestedtemplates\Create GL vNet Resource Group.json" />
+    <Content Include="nestedtemplates\Create GL vNet Resource Group.parameters.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>

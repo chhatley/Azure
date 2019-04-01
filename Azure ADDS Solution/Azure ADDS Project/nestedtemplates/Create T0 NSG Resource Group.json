@@ -8,7 +8,7 @@
       "type": "Microsoft.Resources/resourceGroups",
       "apiVersion": "2018-05-01",
       "location": "[parameters('Location')]",
-      "name": "[parameters('T0 ADDS Resource Group Name')]",
+      "name": "[parameters('T0 NSG Resource Group Name')]",
       "properties": {}
     }
   ],
