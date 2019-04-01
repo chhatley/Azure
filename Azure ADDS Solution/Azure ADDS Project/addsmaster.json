@@ -1,7 +1,11 @@
 ﻿{
-  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "Global Network Resource Group Name": {
+      "type": "string",
+      "defaultValue": "GL-vNet-East-RG"
+    },
     "Location": {
       "type": "string",
       "defaultValue": "East US",
@@ -20,10 +24,6 @@
     "T0 NSG Resource Group Name": {
       "type": "string",
       "defaultValue": "T0-NSG-East-RG"
-    },
-    "Global Network Resource Group Name": {
-      "type": "string",
-      "defaultValue": "GL-vNet-East-RG"
     }
   },
   "variables": {
