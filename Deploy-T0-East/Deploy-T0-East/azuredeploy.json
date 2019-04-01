@@ -17,7 +17,7 @@
       "type": "string",
       "defaultValue": "t0addsstorage"
     },
-    "Resource Group": {
+    "T0 ADDS Resource Group": {
       "type": "string",
       "defaultValue": "T0-ADDS-East-RG"
     },
@@ -53,7 +53,7 @@
       "type": "Microsoft.Resources/resourceGroups",
       "apiVersion": "2018-05-01",
       "location": "[parameters('Location')]",
-      "name": "[parameters('Resource Group')]"
+      "name": "[parameters('T0 ADDS Resource Group')]"
     },
     {
       "type": "Microsoft.Resources/resourceGroups",
@@ -68,36 +68,54 @@
       "name": "[parameters('Global vNet Resource Group Name')]"
     },
     {
-      "name": "[parameters('T0 Storage Account Name')]",
       "type": "Microsoft.Storage/storageAccounts",
-      "resourceGroup": "[parameters('Resource Group')]",
-      "location": "[resourceGroup().location]",
-      "apiVersion": "2016-01-01",
       "sku": {
-        "name": "[parameters('t0storageType')]"
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "kind": "Storage",
+      "name": "[parameters('T0 Storage Account Name')]",
+      "apiVersion": "2018-07-01",
+      "location": "[parameters('location')]",
+      "tags": {},
+      "scale": null,
+      "properties": {
+        "networkAcls": {
+          "bypass": "AzureServices",
+          "virtualNetworkRules": [],
+          "ipRules": [],
+          "defaultAction": "Allow"
+        },
+        "supportsHttpsTrafficOnly": false,
+        "encryption": {
+          "services": {
+            "file": {
+              "enabled": true
+            },
+            "blob": {
+              "enabled": true
+            }
+          },
+          "keySource": "Microsoft.Storage"
+        }
       },
       "dependsOn": [],
-      "tags": {
-        "displayName": "t0storage"
-      },
-      "kind": "Storage"
-    },
-    {
-      "name": "Deploy ADDS Availability Set",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-09-01",
-      "dependsOn": [ ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[concat(variables('_artifactsLocation'), '/', variables('Deploy ADDS Availability SetTemplateFolder'), '/', variables('Deploy ADDS Availability SetTemplateFileName'), variables('_artifactsLocationSasToken'))]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parametersLink": {
-          "uri": "[concat(variables('_artifactsLocation'), '/', variables('Deploy ADDS Availability SetTemplateFolder'), '/', variables('Deploy ADDS Availability SetTemplateParametersFileName'), parameters('_artifactsLocationSasToken'))]",
-          "contentVersion": "1.0.0.0"
+      {
+        "name": "Deploy ADDS Availability Set",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2016-09-01",
+        "dependsOn": [],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri": "[concat(variables('_artifactsLocation'), '/', variables('Deploy ADDS Availability SetTemplateFolder'), '/', variables('Deploy ADDS Availability SetTemplateFileName'), variables('_artifactsLocationSasToken'))]",
+            "contentVersion": "1.0.0.0"
+          },
+          "parametersLink": {
+            "uri": "[concat(variables('_artifactsLocation'), '/', variables('Deploy ADDS Availability SetTemplateFolder'), '/', variables('Deploy ADDS Availability SetTemplateParametersFileName'), parameters('_artifactsLocationSasToken'))]",
+            "contentVersion": "1.0.0.0"
+          }
         }
       }
+      ]
     }
-  ]
-}
