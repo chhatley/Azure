@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>2c84e3aa-8e4a-4480-bb7b-6c4aee02e934</ProjectGuid>
+    <ProjectGuid>98aab1a1-fe61-4002-b5cc-7db7fca876bf</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup>
     <PrepareForBuildDependsOn>
@@ -23,18 +23,12 @@
   <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
   <!-- vertag<:>end -->
   <ItemGroup>
-    <Content Include="addsmaster.json" />
-    <Content Include="addsmaster.parameters.json" />
+    <Content Include="azuredeploy.json" />
+    <Content Include="azuredeploy.parameters.json" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
-    <Content Include="nestedtemplates\Create T0 ADDS Resouce Group.json" />
-    <Content Include="nestedtemplates\Create T0 ADDS Resouce Group.parameters.json" />
-    <Content Include="nestedtemplates\Create T0 NSG Resource Group.json" />
-    <Content Include="nestedtemplates\Create T0 NSG Resource Group.parameters.json" />
-    <Content Include="nestedtemplates\Create GL vNet Resource Group.json" />
-    <Content Include="nestedtemplates\Create GL vNet Resource Group.parameters.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
