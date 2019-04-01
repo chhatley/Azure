@@ -1,0 +1,39 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "_artifactsLocation": {
+      "type": "string"
+    },
+    "_artifactsLocationSasToken": {
+      "type": "securestring"
+    }
+  },
+  "variables": {
+    "_artificatsLocation": ""
+    "Create T0 ADDS Resouce GroupTemplateFolder": "nestedtemplates",
+    "Create T0 ADDS Resouce GroupTemplateFileName": "Create T0 ADDS Resouce Group.json",
+    "Create T0 ADDS Resouce GroupTemplateParametersFileName": "Create T0 ADDS Resouce Group.parameters.json"
+  },
+  "resources": [
+    {
+      "name": "Create T0 ADDS Resouce Group",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [ ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/', variables('Create T0 ADDS Resouce GroupTemplateFolder'), '/', variables('Create T0 ADDS Resouce GroupTemplateFileName'), parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parametersLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/', variables('Create T0 ADDS Resouce GroupTemplateFolder'), '/', variables('Create T0 ADDS Resouce GroupTemplateParametersFileName'), parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        }
+      }
+    }
+  ],
+  "outputs": {
+  }
+}
