@@ -16,7 +16,6 @@
       {
         "name": "[parameters('T0 ADDS Availability Set')]",
         "type": "Microsoft.Compute/availabilitySets",
-        "resourceGroup": "[parameters('T0 ADDS Resource Group')]",
         "location": "[resourceGroup().location]",
         "apiVersion": "2015-06-15",
         "dependsOn": [],
