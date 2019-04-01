@@ -39,17 +39,17 @@
         "Standard_RAGRS",
         "Premium_LRS"
       ]
-    },
-    "_artifactsLocation": {
-      "type": "https://github.com/chhatley/Azure/tree/master/Deploy-T0-East/Deploy-T0-East",
-      "defaultValue": "https://github.com/chhatley/Azure/tree/master/Deploy-T0-East/Deploy-T0-East"
     }
   },
   "variables": {
     "t0storageName": "[concat('t0storage', uniqueString(resourceGroup().id))]",
+    "_artifcatsLocation": null,
+    "https": null, //github.com/chhatley/Azure/tree/master/Deploy-T0-East/Deploy-T0-East,
+    "_artifactsLocation": "https://github.com/chhatley/Azure/tree/master/Deploy-T0-East/Deploy-T0-East",
     "Deploy ADDS Availability SetTemplateFolder": "nestedtemplates",
     "Deploy ADDS Availability SetTemplateFileName": "Deploy ADDS Availability Set.json",
-    "Deploy ADDS Availability SetTemplateParametersFileName": "Deploy ADDS Availability Set.parameters.json"},
+    "Deploy ADDS Availability SetTemplateParametersFileName": "Deploy ADDS Availability Set.parameters.json"
+  },
   "resources": [
     {
       "type": "Microsoft.Resources/resourceGroups",
@@ -92,11 +92,11 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(parameters('_artifactsLocation'), '/', variables('Deploy ADDS Availability SetTemplateFolder'), '/', variables('Deploy ADDS Availability SetTemplateFileName'), parameters('_artifactsLocationSasToken'))]",
+          "uri": "[concat(variables('_artifactsLocation'), '/', variables('Deploy ADDS Availability SetTemplateFolder'), '/', variables('Deploy ADDS Availability SetTemplateFileName'), variables('_artifactsLocationSasToken'))]",
           "contentVersion": "1.0.0.0"
         },
         "parametersLink": {
-          "uri": "[concat(parameters('_artifactsLocation'), '/', variables('Deploy ADDS Availability SetTemplateFolder'), '/', variables('Deploy ADDS Availability SetTemplateParametersFileName'), parameters('_artifactsLocationSasToken'))]",
+          "uri": "[concat(variables('_artifactsLocation'), '/', variables('Deploy ADDS Availability SetTemplateFolder'), '/', variables('Deploy ADDS Availability SetTemplateParametersFileName'), parameters('_artifactsLocationSasToken'))]",
           "contentVersion": "1.0.0.0"
         }
       }
