@@ -17,7 +17,7 @@
       "type": "string",
       "defaultValue": "t0addsstorage"
     },
-    "T0 ADDS Resource Group Name": {
+    "Resource Group": {
       "type": "string",
       "defaultValue": "T0-ADDS-East-RG"
     },
@@ -54,7 +54,7 @@
       "type": "Microsoft.Resources/resourceGroups",
       "apiVersion": "2018-05-01",
       "location": "[parameters('Location')]",
-      "name": "[parameters('T0 ADDS Resource Group Name')]"
+      "name": "[parameters('Resource Group')]"
     },
     {
       "type": "Microsoft.Resources/resourceGroups",
@@ -71,7 +71,7 @@
     {
       "name": "[parameters('T0 Storage Account Name')]",
       "type": "Microsoft.Storage/storageAccounts",
-      "resourceGroup": "[parameters('T0 ADDS Resource Group Name')]",
+      "resourceGroup": "[parameters('Resource Group')]",
       "location": "[resourceGroup().location]",
       "apiVersion": "2016-01-01",
       "sku": {
