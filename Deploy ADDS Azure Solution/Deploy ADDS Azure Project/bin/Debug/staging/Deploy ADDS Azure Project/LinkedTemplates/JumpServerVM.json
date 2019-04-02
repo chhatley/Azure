@@ -14,12 +14,6 @@
         "description": "The name of the Administrator of the new VMs and Domain"
       }
     },
-    "assetLocation": {
-      "type": "string",
-      "metadata": {
-        "description": "The location of resources that the script is dependent on such as linked templates and DSC modules"
-      }
-    },
     "dataDiskSize": {
       "type": "int",
       "metadata": {
@@ -33,7 +27,7 @@
         "description": "The domain name"
       }
     },
-    "NicName": {
+    "jumpNicName": {
       "type": "string",
       "metadata": {
         "description": "Name of the Nic attached to the ad VM"
@@ -59,12 +53,10 @@
     },
     "vmSize": {
       "type": "string",
-      "defaultValue": "Standard_DS12_v2",
-      "allowedValues": [
-        "Standard_DS12_v2",
-        "Standard_A2",
-        "Standard_DS2_v2"
-      ]
+      "metadata": {
+        "description": "The size of the AD VMs Created"
+      },
+      "defaultValue": "Standard_A2"
     },
     "windowsImageOffer": {
       "type": "string",
@@ -82,12 +74,15 @@
     },
     "windowsImageSKU": {
       "type": "string",
-      "defaultValue": "2019-Datacenter",
       "allowedValues": [
         "2012-R2-Datacenter",
         "2016-Datacenter",
         "2019-Datacenter"
-      ]
+      ],
+      "metadata": {
+        "description": "Choose the OS type for the first domain controller."
+      },
+      "defaultValue": "2019-Datacenter"
     },
     "windowsImageVersion": {
       "type": "string",
@@ -96,10 +91,28 @@
       },
       "defaultValue": "latest"
     },
-    "adAvailabilitySetName": {
+    "rpdNAT": {
       "type": "string",
       "metadata": {
-        "description": "Availability set for AD VMs"
+        "description": "RDP NAT"
+      }
+    },
+    "lbFE": {
+      "type": "string",
+      "metadata": {
+        "description": "Public IP address ID"
+      }
+    },
+    "publicLBName": {
+      "type": "string",
+      "metadata": {
+        "description": "Public LB Name"
+      }
+    },
+    "adRDPNATRuleID": {
+      "type": "string",
+      "metadata": {
+        "description": ""
       }
     }
   },
@@ -115,7 +128,7 @@
   },
   "resources": [
     {
-      "name": "[parameters('NicName')]",
+      "name": "[parameters('jumpNicName')]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[resourceGroup().location]",
       "apiVersion": "2018-12-01",
@@ -128,7 +141,12 @@
               "privateIPAddress": "[parameters('primaryIpAddress')]",
               "subnet": {
                 "id": "[parameters('subnetResourceID')]"
-              }
+              },
+              "loadBalancerInboundNatRules": [
+                {
+                  "id": "[parameters('adRDPNATRuleID')]"
+                }
+              ]
             }
           }
         ]
@@ -140,14 +158,11 @@
       "location": "[resourceGroup().location]",
       "apiVersion": "2017-03-30",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces',parameters('NicName'))]"
+        "[resourceId('Microsoft.Network/networkInterfaces',parameters('jumpNicName'))]"
       ],
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
-        },
-        "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('adAvailabilitySetName'))]"
         },
         "osProfile": {
           "computerName": "[parameters('vmName')]",
@@ -179,7 +194,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',parameters('NicName'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',parameters('jumpNicName'))]"
             }
           ]
         }
@@ -235,4 +250,3 @@
   ],
   "outputs": {}
 }
-

@@ -58,39 +58,51 @@
     },
     "DC1VMImageSKU": {
       "type": "string",
-      "defaultValue" : "2019-Datacenter",
       "allowedValues": [
         "2012-R2-Datacenter",
         "2016-Datacenter",
         "2019-Datacenter"
-      ]
+      ],
+      "metadata": {
+        "description": "Choose the OS type for the first domain controller."
+      },
+      "defaultValue": "2019-Datacenter"
     },
     "DC2VMImageSKU": {
       "type": "string",
-      "defaultValue": "2019-Datacenter",
       "allowedValues": [
         "2012-R2-Datacenter",
         "2016-Datacenter",
         "2019-Datacenter"
-      ]
+      ],
+      "metadata": {
+        "description": "Choose the OS type for the second domain controller."
+      },
+      "defaultValue": "2019-Datacenter"
     },
     "JumpServerVMImageSKU": {
       "type": "string",
-      "defaultValue": "2019-Datacenter",
       "allowedValues": [
         "2012-R2-Datacenter",
         "2016-Datacenter",
         "2019-Datacenter"
-      ]
+      ],
+      "metadata": {
+        "description": "Choose the OS type for the Jump Server."
+      },
+      "defaultValue": "2019-Datacenter"
     },
     "VirtualMachineSize": {
       "type": "string",
-      "defaultValue": "Standard_DS12_v2",
       "allowedValues": [
         "Standard_DS12_v2",
         "Standard_A2",
         "Standard_DS2_v2"
-      ]
+      ],
+      "metadata": {
+        "description": "VM Size. To increase the size of your Virtual Machines, pleast modify the template."
+      },
+      "defaultValue": "Standard_DS12_v2"
     }
   },
   "resources": [
