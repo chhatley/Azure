@@ -30,7 +30,7 @@
       "name": "[parameters('beNSGName')]",
       "location": "[variables('location')]",
       "tags": {
-        "displayName": "BackEndNSG"
+        "displayName": "T0ADBackEndNSG"
       },
       "properties": {
         "securityRules": [
@@ -449,7 +449,7 @@
       "name": "[parameters('feNSGName')]",
       "location": "[variables('location')]",
       "tags": {
-        "displayName": "FrontEndNSG"
+        "displayName": "T0ADFrontEndNSG"
       },
       "properties": {
         "securityRules": [
