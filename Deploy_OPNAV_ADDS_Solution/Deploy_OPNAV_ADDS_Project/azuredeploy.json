@@ -115,7 +115,7 @@
         "type": "string",
         "defaultValue": "T0-ADDS-AS-01"
       },
-      "virtualNetworkAddressRange": {
+      "vNetworkAddressRange": {
         "type": "string",
         "defaultValue": "172.16.0.0/16"
       },
@@ -146,7 +146,7 @@
     "dc1VMOSVersion": "[parameters('DC1VMImageSKU')]",
     "dc2VMOSVersion": "[parameters('DC2VMImageSKU')]",
     "jumpserverVMOSVersion": "[parameters('JumpServerVMImageSKU')]",
-    "virtualNetworkAddressRange": "[parameters('virtualNetworkAddressRange')]",
+    "virtualNetworkAddressRange": "[parameters('vNetworkAddressRange')]",
     "backendNetworkSubnet": "[parameters('backendNetworkSubnet')]",
     "frontendNetworkSubnet": "[parameters('frontendNetworkSubnet')]",
     "primaryDC1IpAddress": "[parameters('primaryDC1IpAddress')]",
