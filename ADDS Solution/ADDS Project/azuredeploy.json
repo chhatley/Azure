@@ -12,6 +12,18 @@
         "NorthCentralUS",
         "WestUS"
       ]
+    },
+    "T0 ADDS Resource Group Name": {
+      "type": "string",
+      "defaultValue": "T0-ADDS-East-RG"
+    },
+    "T0 NSG Resource Group Name": {
+      "type": "string",
+      "defaultValue": "T0-NSG-East-RG"
+    },
+    "Global vNet Resource Group Name": {
+      "type": "string",
+      "defaultValue": "GL-vNet-East-RG"
     }
   },
   "variables": {

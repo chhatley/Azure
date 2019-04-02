@@ -1,8 +1,33 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "parameters": {},
+  "parameters": {
+    "Location": {
+      "type": "string",
+      "defaultValue": "EastUS",
+      "allowedValues": [
+        "EastUS2",
+        "EastUS",
+        "CentralUS",
+        "SouthCentralUS",
+        "NorthCentralUS",
+        "WestUS"
+      ]
+    },
+    "T0 NSG Resource Group Name": {
+      "type": "string",
+      "defaultValue": "T0-NSG-East-RG"
+    }
+  },
   "variables": {},
-  "resources": [],
+  "resources": [
+    {
+      "type": "Microsoft.Resources/resourcegroups",
+      "apiVersion": "2019-03-01",
+      "location": "[parameters('location')]",
+      "name": "[parameters('T0 NSG Resource Group Name')]",
+      "properties": {}
+    }
+  ],
   "outputs": {}
 }
