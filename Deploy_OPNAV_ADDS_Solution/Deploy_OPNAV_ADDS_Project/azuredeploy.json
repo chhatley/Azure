@@ -88,7 +88,7 @@
       },
       "JumpServer Hostname": {
         "type": "string",
-        "defaultValue": "T0-DC3N-DC-01"
+        "defaultValue": "T0-AD-JS-01"
       },
       "ADDS vNet Name": {
         "type": "string",
