@@ -1,0 +1,251 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The password for the Administrator account of the new VMs and Domain"
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the Administrator of the new VMs and Domain"
+      }
+    },
+    "dataDiskSize": {
+      "type": "int",
+      "metadata": {
+        "description": "Size of the VM data disk in GB"
+      },
+      "defaultValue": 2
+    },
+    "domainName": {
+      "type": "string",
+      "metadata": {
+        "description": "The domain name"
+      }
+    },
+    "jumpNicName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Nic attached to the ad VM"
+      }
+    },
+    "primaryIpAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "PrimaryIPAddress if AD VM"
+      }
+    },
+    "subnetResourceID": {
+      "type": "string",
+      "metadata": {
+        "description": "the resource id of the subnet"
+      }
+    },
+    "vmName": {
+      "type": "string",
+      "metadata": {
+        "description": "The VM Name"
+      }
+    },
+    "vmSize": {
+      "type": "string",
+      "metadata": {
+        "description": "The size of the AD VMs Created"
+      },
+      "defaultValue": "Standard_A2"
+    },
+    "windowsImageOffer": {
+      "type": "string",
+      "metadata": {
+        "description": "The offer of Windows Image"
+      },
+      "defaultValue": "WindowsServer"
+    },
+    "windowsImagePublisher": {
+      "type": "string",
+      "metadata": {
+        "description": "The Publisher of Windows Image"
+      },
+      "defaultValue": "MicrosoftWindowsServer"
+    },
+    "windowsImageSKU": {
+      "type": "string",
+      "allowedValues": [
+        "2012-R2-Datacenter",
+        "2016-Datacenter"
+      ],
+      "metadata": {
+        "description": "The SKU Name of Windows Image"
+      },
+      "defaultValue": "2016-Datacenter"
+    },
+    "windowsImageVersion": {
+      "type": "string",
+      "metadata": {
+        "description": "The Version of Windows Image"
+      },
+      "defaultValue": "latest"
+    },
+    "rpdNAT": {
+      "type": "string",
+      "metadata": {
+        "description": "RDP NAT"
+      }
+    },
+    "lbFE": {
+      "type": "string",
+      "metadata": {
+        "description": "Public IP address ID"
+      }
+    },
+    "publicLBName": {
+      "type": "string",
+      "metadata": {
+        "description": "Public LB Name"
+      }
+    },
+    "adRDPNATRuleID": {
+      "type": "string",
+      "metadata": {
+        "description": ""
+      }
+    }
+  },
+  "variables": {
+    "computeApiVersion": "2017-03-30",
+    "domainJoinOptions": "3",
+    "shortDomainName": "[split(parameters('domainName'),'.')[0]]",
+    "ouPath": "",
+    "joinUser": "[concat(variables('shortDomainName'), '\\', parameters('adminUsername'))]",
+    "joinUserDN": "[concat(parameters('domainName'), '\\', parameters('adminUsername'))]",
+    "joinuserUPN": "[concat(parameters('adminUsername'),'@',parameters('domainName'))]",
+    "vmvhdContainerName": "vhds"
+  },
+  "resources": [
+    {
+      "name": "[parameters('jumpNicName')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-05-01-preview",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[parameters('primaryIpAddress')]",
+              "subnet": {
+                "id": "[parameters('subnetResourceID')]"
+              },
+              "loadBalancerInboundNatRules": [
+                {
+                  "id": "[parameters('adRDPNATRuleID')]"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[parameters('vmName')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2017-03-30",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces',parameters('jumpNicName'))]"
+      ],
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('vmName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[parameters('windowsImagePublisher')]",
+            "offer": "[parameters('windowsImageOffer')]",
+            "sku": "[parameters('windowsImageSKU')]",
+            "version": "[parameters('windowsImageVersion')]"
+          },
+          "osDisk": {
+            "name": "[concat(parameters('vmName'), '0','-osdisk')]",
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          },
+          "dataDisks": [
+            {
+              "name": "[concat(parameters('vmName'), '0','-data-disk1')]",
+              "createOption": "Empty",
+              "caching": "None",
+              "diskSizeGB": "[parameters('dataDiskSize')]",
+              "lun": 0
+            }
+          ]
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',parameters('jumpNicName'))]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "[concat('shutdown-computevm-',parameters('vmName'))]",
+      "type": "Microsoft.DevTestLab/schedules",
+      "apiVersion": "2016-05-15",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines',parameters('vmName'))]"
+      ],
+      "properties": {
+        "status": "Enabled",
+        "taskType": "ComputeVmShutdownTask",
+        "dailyRecurrence": {
+          "time": "2100"
+        },
+        "timeZoneId": "Mountain Standard Time",
+        "notificationSettings": {
+          "status": "Disabled",
+          "timeInMinutes": 15
+        },
+        "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+      }
+    },
+    {
+      "name": "[concat(parameters('vmName'),'/joindomain')]",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines',parameters('vmName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "JsonADDomainExtension",
+        "typeHandlerVersion": "1.3",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "Name": "[parameters('domainName')]",
+          "OUPath": "",
+          "User": "[variables('joinUserDN')]",
+          "Restart": "true",
+          "Options": "[variables('domainJoinOptions')]"
+        },
+        "protectedSettings": {
+          "Password": "[parameters('adminPassword')]"
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}

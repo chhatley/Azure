@@ -1,0 +1,121 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the Virtual Network"
+      }
+    },
+    "dnsPrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "DNS Prefix"
+      }
+    },
+    "publicLBName": {
+      "type": "string",
+      "metadata": {
+        "description": "Public LB Name"
+      }
+    },
+    "virtualNetworkAddressRange": {
+      "type": "string",
+      "metadata": {
+        "description": "The address range of the VNET in CIDR format"
+      }
+    },
+    "subnets": {
+      "type": "array",
+      "metadata": {
+        "description": "The subnet definition for the VNET"
+      }
+    },
+    "publicIPAddressName": {
+      "type": "string",
+      "metadata": {
+        "description": "Public IP Name"
+      }
+    },
+    "lbFE": {
+      "type": "string",
+      "metadata": {
+        "description": "Public IP address ID"
+      }
+    },
+    "rpdNAT": {
+      "type": "string",
+      "metadata": {
+        "description": "RDP NAT"
+      }
+    },
+    "rdpPort": {
+      "type": "string",
+      "metadata": {
+        "description": ""
+      }
+    }
+  },
+  "variables": {
+    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName'))]",
+    "publiclbID": "[resourceId('Microsoft.Network/loadBalancers',parameters('publicLBName'))]",
+    "publiclbFEConfigID": "[concat(variables('publiclbID'),'/frontendIPConfigurations/',parameters('lbFE'))]",
+    "adRDPNATRuleID": "[concat(variables('publiclbID'),'/inboundNatRules/',parameters('rpdNAT'))]"
+  },
+  "resources": [
+    {
+      "name": "[parameters('publicIPAddressName')]",
+      "location": "[resourceGroup().location]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2015-06-15",
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('dnsPrefix')]"
+        }
+      }
+    },
+    {
+      "name": "[parameters('publicLBName')]",
+      "location": "[resourceGroup().location]",
+      "type": "Microsoft.Network/loadBalancers",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[parameters('publicIPAddressName')]"
+      ],
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "[parameters('lbFE')]",
+            "properties": {
+              "publicIPAddress": {
+                "id": "[variables('publicIPAddressID')]"
+              }
+            }
+          }
+        ],
+        "inboundNatRules": [
+          {
+            "name": "[parameters('rpdNAT')]",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[variables('publiclbFEConfigID')]"
+              },
+              "protocol": "tcp",
+              "frontendPort": "[parameters('rdpPort')]",
+              "backendPort": 3389,
+              "enableFloatingIP": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+    "adRDPNATRuleID": {
+      "type": "string",
+      "value": "[reference(concat(variables('adRDPNATRuleID')), '2015-06-15')]"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "External AD Lab WS2016", "External AD Lab WS2016\External AD Lab WS2016.deployproj", "{752D90EA-D7CF-4E63-BF81-D66736D31BF9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{752D90EA-D7CF-4E63-BF81-D66736D31BF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{752D90EA-D7CF-4E63-BF81-D66736D31BF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{752D90EA-D7CF-4E63-BF81-D66736D31BF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{752D90EA-D7CF-4E63-BF81-D66736D31BF9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8A87B4FD-3521-4E63-A9E7-87BFA7B1B1E0}
+	EndGlobalSection
+EndGlobal
