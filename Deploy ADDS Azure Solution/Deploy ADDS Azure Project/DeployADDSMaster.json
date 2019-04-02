@@ -109,7 +109,7 @@
     {
       "name": "[variables('ADAvailabilitySetName')]",
       "type": "Microsoft.Compute/availabilitySets",
-      "apiVersion": "2017-03-30",
+      "apiVersion": "2018-02-01-preview",
       "location": "[resourceGroup().location]",
       "properties": {
         "PlatformUpdateDomainCount": 3,

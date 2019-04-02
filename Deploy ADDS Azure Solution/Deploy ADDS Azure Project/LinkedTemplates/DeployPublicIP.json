@@ -65,25 +65,24 @@
     },
     "resources": [
       {
-        "name": "[parameters('publicIPAddressName')]",
-        "location": "[resourceGroup().location]",
-        "type": "Microsoft.Network/publicIPAddresses",
         "apiVersion": "2015-06-15",
+        "location": "[resourceGroup().location]",
+        "name": "[parameters('publicIPAddressName')]",
         "properties": {
           "publicIPAllocationMethod": "Dynamic",
           "dnsSettings": {
             "domainNameLabel": "[parameters('dnsPrefix')]"
           }
-        }
+        },
+        "type": "Microsoft.Network/publicIPAddresses"
       },
       {
-        "name": "[parameters('publicLBName')]",
-        "location": "[resourceGroup().location]",
-        "type": "Microsoft.Network/loadBalancers",
         "apiVersion": "2015-06-15",
         "dependsOn": [
           "[parameters('publicIPAddressName')]"
         ],
+        "location": "[resourceGroup().location]",
+        "name": "[parameters('publicLBName')]",
         "properties": {
           "frontendIPConfigurations": [
             {
@@ -109,7 +108,8 @@
               }
             }
           ]
-        }
+        },
+        "type": "Microsoft.Network/loadBalancers"
       }
     ],
     "outputs": {
