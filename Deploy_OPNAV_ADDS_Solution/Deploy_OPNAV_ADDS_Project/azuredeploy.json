@@ -41,7 +41,7 @@
       "metadata": {
         "description": "Choose OS type for first Domain Controller"
       },
-      "defaultValue": "2016-Datacenter"
+      "defaultValue": "2019-Datacenter"
     },
     "DC2VMImageSKU": {
       "type": "string",
