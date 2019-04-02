@@ -171,24 +171,25 @@
     "BackendSubnetID": "[concat(variables('vNetID'),'/subnets/',variables('BackendSubnetName'))]",
     "FrontendSubnetName": "[concat('FrontEndADSubnet',resourceGroup().name)]",
     "FrontendSubnetID": "[concat(variables('vNetID'),'/subnets/',variables('FrontendSubnetName'))]",
-    "Subnets": {
-      "name": "[variables('backendSubnetName')]",
-      "properties": {
-        "addressPrefix": "[variables('backendNetworkSubnet')]",
-        "networkSecurityGroup": {
-          "id": "[variables('beNSGID')]"
+    "subnets": [
+      {
+        "name": "[variables('backendSubnetName')]",
+        "properties": {
+          "addressPrefix": "[variables('backendNetworkSubnet')]",
+          "networkSecurityGroup": {
+            "id": "[variables('beNSGID')]"
+          }
+        }
+      },
+      {
+        "name": "[variables('frontendSubnetName')]",
+        "properties": {
+          "addressPrefix": "[variables('frontendNetworkSubnet')]",
+          "networkSecurityGroup": {
+            "id": "[variables('feNSGID')]"
+          }
         }
       }
-    },
-    {
-      "name": "[variables('FrontendSubnetName')]",
-      "properties": {
-        "addressPrefix": "[variables('FrontendNetworkSubnet')]",
-        "networkSecurityGroup": {
-          "id": "[variables('FENSGID')]"
-        }
-      }
-    },
     ]
   },
   "resources": [
