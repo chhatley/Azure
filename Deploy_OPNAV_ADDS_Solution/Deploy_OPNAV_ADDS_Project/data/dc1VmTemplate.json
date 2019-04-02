@@ -12,18 +12,20 @@
     "windowsImageOffer": {
       "type": "string",
       "metadata": {
-        "description": "Windows Image"
+        "description": "The offer of Windows Image"
       },
       "defaultValue": "WindowsServer"
     },
     "windowsImageSKU": {
       "type": "string",
-      "defaultValue": "2019-Datacenter",
       "allowedValues": [
         "2012-R2-Datacenter",
-        "2016-Datacenter",
-        "2019-Datacenter"
-      ]
+        "2016-Datacenter"
+      ],
+      "metadata": {
+        "description": "The SKU Name of Windows Image"
+      },
+      "defaultValue": "2016-Datacenter"
     },
     "windowsImageVersion": {
       "type": "string",
@@ -59,12 +61,10 @@
     },
     "vmSize": {
       "type": "string",
-      "defaultValue": "Standard_DS12_v2",
-      "allowedValues": [
-        "Standard_DS12_v2",
-        "Standard_A2",
-        "Standard_DS2_v2"
-      ]
+      "metadata": {
+        "description": "The size of the AD VMs Created"
+      },
+      "defaultValue": "Standard_A2"
     },
     "subnetResourceID": {
       "type": "string",
@@ -99,7 +99,7 @@
       "name": "[parameters('adDNicName')]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[resourceGroup().location]",
-      "apiVersion": "2018-12-01",
+      "apiVersion": "2015-05-01-preview",
       "properties": {
         "ipConfigurations": [
           {
@@ -178,9 +178,9 @@
         "status": "Enabled",
         "taskType": "ComputeVmShutdownTask",
         "dailyRecurrence": {
-          "time": "1700"
+          "time": "2100"
         },
-        "timeZoneId": "Eastern Standard Time",
+        "timeZoneId": "Mountain Standard Time",
         "notificationSettings": {
           "status": "Disabled",
           "timeInMinutes": 15

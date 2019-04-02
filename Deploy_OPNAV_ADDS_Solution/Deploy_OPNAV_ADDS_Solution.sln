@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.539
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "Deploy ADDS Azure Project", "Deploy ADDS Azure Project\Deploy ADDS Azure Project.deployproj", "{79B938EB-D121-49E7-89EB-DC8D6170C0B8}"
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "Deploy_OPNAV_ADDS_Project", "Deploy_OPNAV_ADDS_Project\Deploy_OPNAV_ADDS_Project.deployproj", "{5CB45778-0A7F-4EFD-9653-E6C3000222CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{79B938EB-D121-49E7-89EB-DC8D6170C0B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79B938EB-D121-49E7-89EB-DC8D6170C0B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79B938EB-D121-49E7-89EB-DC8D6170C0B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79B938EB-D121-49E7-89EB-DC8D6170C0B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CB45778-0A7F-4EFD-9653-E6C3000222CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CB45778-0A7F-4EFD-9653-E6C3000222CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CB45778-0A7F-4EFD-9653-E6C3000222CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CB45778-0A7F-4EFD-9653-E6C3000222CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {A182974C-7BF7-49C2-938B-0092E8E0D99E}
+		SolutionGuid = {E032FB59-DB86-4D89-A701-1F6F28A86300}
 	EndGlobalSection
 EndGlobal

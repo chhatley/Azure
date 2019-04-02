@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>79b938eb-d121-49e7-89eb-dc8d6170c0b8</ProjectGuid>
+    <ProjectGuid>5cb45778-0a7f-4efd-9653-e6c3000222cd</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup>
     <PrepareForBuildDependsOn>
@@ -23,23 +23,12 @@
   <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
   <!-- vertag<:>end -->
   <ItemGroup>
-    <None Include="ADScripts\DeployADDS.zip" />
-    <Content Include="DeployADDSMasterold.json" />
-    <Content Include="DeployADDSMaster.parameters.json" />
-    <None Include="DeployADDSMaster.json" />
+    <Content Include="azuredeploy.json" />
+    <Content Include="azuredeploy.parameters.json" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
-    <Content Include="LinkedTemplates\NSGDeployment.json" />
-    <Content Include="LinkedTemplates\vNetDeployment.json" />
-    <Content Include="LinkedTemplates\JumpServerVM.json" />
-    <Content Include="LinkedTemplates\vNetDNSupdate.json" />
-    <Content Include="LinkedTemplates\PromoteSecondDC.json" />
-    <Content Include="LinkedTemplates\DeployPrimaryAD.json" />
-    <Content Include="LinkedTemplates\DC1VMTemplate.json" />
-    <Content Include="LinkedTemplates\DC2VMTemplate.json" />
-    <Content Include="LinkedTemplates\DeployPublicIP.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>

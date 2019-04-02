@@ -2,7 +2,7 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "dc2VMName": {
+    "dc1VMName": {
       "type": "string",
       "metadata": {
         "description": "The VM name of Primary AD"
@@ -17,7 +17,7 @@
     "adminUsername": {
       "type": "string",
       "metadata": {
-        "description": "The name of the Administrator of the new VMs and Domain"
+        "description": "The name of the Administrator  of the new VMs and Domain"
       }
     },
     "adminPassword": {
@@ -34,12 +34,12 @@
     }
   },
   "variables": {
-    "adDC2ModulesURL": "[concat(parameters('assetLocation'),'/ADScripts/DeployADDS.zip')]",
-    "adDC2ConfigurationFunction": "DeployADDS.ps1\\DeployDC2"
+    "adPDCModulesURL": "[concat(parameters('assetLocation'),'/data/DeployADDS.zip')]",
+    "adPDCConfigurationFunction": "DeployADDS.ps1\\CreateADPDC"
   },
   "resources": [
     {
-      "name": "[concat(parameters('dc2VMName'),'/InstallSecondDomainController')]",
+      "name": "[concat(parameters('dc1VMName'),'/InstallDomainController')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
@@ -49,8 +49,8 @@
         "typeHandlerVersion": "2.8",
         "autoUpgradeMinorVersion": true,
         "settings": {
-          "modulesUrl": "[variables('adDC2ModulesURL')]",
-          "configurationFunction": "[variables('adDC2ConfigurationFunction')]",
+          "modulesUrl": "[variables('adPDCModulesURL')]",
+          "configurationFunction": "[variables('adPDCConfigurationFunction')]",
           "properties": {
             "domainName": "[parameters('domainName')]",
             "adminCreds": {
@@ -69,4 +69,3 @@
   ],
   "outputs": {}
 }
-
