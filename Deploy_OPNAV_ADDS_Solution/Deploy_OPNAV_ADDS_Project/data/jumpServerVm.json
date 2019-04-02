@@ -56,7 +56,7 @@
       "metadata": {
         "description": "The size of the AD VMs Created"
       },
-      "defaultValue": "Standard_A2"
+      "defaultValue": "Standard_B2s"
     },
     "windowsImageOffer": {
       "type": "string",
