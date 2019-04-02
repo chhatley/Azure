@@ -25,7 +25,6 @@
   <ItemGroup>
     <Content Include="azuredeploy.json" />
     <Content Include="azuredeploy.parameters.json" />
-    <None Include="data\appServer1Vm.json" />
     <None Include="data\dc1VmTemplate.json" />
     <None Include="data\dc2VmTemplate.json" />
     <None Include="data\DeployADDS.zip" />
