@@ -204,7 +204,7 @@
     "feNSGID": "[resourceId('Microsoft.Network/networkSecurityGroups',variables('feNSGName'))]",
     "dc1NICName": "[concat('DC1Nic',resourceGroup().name)]",
     "dc2NICName": "[concat('DC2Nic',resourceGroup().name)]",
-    "jumpNICName": "[concat('JumpBoxNic',resourceGroup().name)]",
+    "jumpNICName": "[concat('T0JumpBoxNic',resourceGroup().name)]",
     "virtualNetworkName": "[parameters('ADDS vNet Name')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
     "backendSubnetName": "[parameters('Tier 0 Subnet BE Name')]",
