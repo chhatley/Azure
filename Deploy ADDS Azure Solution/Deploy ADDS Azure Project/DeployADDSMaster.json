@@ -117,7 +117,7 @@
     "PrimaryJumpServerIpAddress": "172.16.2.4",
     "vNetTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/vNetDeployment.json')]",
     "NSGTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/NSGDeployment.json')]",
-    "PublicIPTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/publicIP.json')]",
+    "PublicIPTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/DeployPublicIP.json')]",
     "DC1TemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/DC1VMTemplate.json')]",
     "DC2TemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/DC2VMTemplate.json')]",
     "JumpServerTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/JumpServerVM.json')]",
