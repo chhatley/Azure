@@ -18,7 +18,7 @@
       "type": "Microsoft.Network/virtualNetworks",
       "location": "[variables('location')]",
       "tags": { "displayName": "virtualNetwork" },
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2018-12-01",
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
