@@ -6,28 +6,28 @@
       "type": "string",
 
       "metadata": {
-        "description": "AD DS Domain Name"
+        "description": "AD DS Domain Name."
       },
       "defaultValue": "dc3n.navy.mil"
     },
     "adminUsername": {
       "type": "string",
       "metadata": {
-        "description": "The name of the Administrator of the new VMs and Domain"
+        "description": "The name of the Administrator account that will be used for the domain and VMs. STIGS require that you do not actually name the account ADMINISTRATOR..."
       },
       "defaultValue": "labadmin"
     },
     "adminPassword": {
       "type": "securestring",
       "metadata": {
-        "description": "The Administrator password for VMs and Domain. If you do not change it, then it will look like this: Subscription#SUBSCRIPTIONID"
+        "description": "The Administrator password for VMs and Domain. If you do not change it, then it will look like this: N@vyUBSCRIPTIONID"
       },
-      "defaultValue": "[concat('Subscription#',subscription().subscriptionId)]"
+      "defaultValue": "[concat('N@vy',subscription().subscriptionId)]"
     },
     "sourceClientIP": {
       "type": "string",
       "metadata": {
-        "description": "Public IP or range of IPs that will be able to RDP into this lab. You can use * but it is highly discouraged!"
+        "description": "Public IP or range of IPs that will be able to RDP into this environment. You can use * but it is highly discouraged! Another option is to setup a VPN after this deployment."
       },
       "defaultValue": "127.0.0.1"
     },
@@ -39,7 +39,7 @@
         "2019-Datacenter"
       ],
       "metadata": {
-        "description": "Choose OS type for Domain  Controller"
+        "description": "Choose OS type for first Domain Controller"
       },
       "defaultValue": "2016-Datacenter"
     },
@@ -51,7 +51,7 @@
         "2019-Datacenter"
       ],
       "metadata": {
-        "description": "Choose OS type for DC2 Server"
+        "description": "Choose OS type for second Domain Controller"
       },
       "defaultValue": "2019-Datacenter"
     },
@@ -63,7 +63,7 @@
         "2019-Datacenter"
       ],
       "metadata": {
-        "description": "Choose OS type for DC2 Server"
+        "description": "Choose the OS type for the Jump Server"
       },
       "defaultValue": "2019-Datacenter"
     },
@@ -74,7 +74,7 @@
           "Standard_A2"
         ],
         "metadata": {
-          "description": "VM Size. The bigger it is, the more $ you will spend."
+          "description": "VM Size. Hard coded for a lab. To increase size or pricing model, please modify the template."
         },
         "defaultValue": "Standard_DS12_v2"
       },
