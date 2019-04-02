@@ -179,9 +179,9 @@
         "status": "Enabled",
         "taskType": "ComputeVmShutdownTask",
         "dailyRecurrence": {
-          "time": "2100"
+          "time": "1700"
         },
-        "timeZoneId": "Mountain Standard Time",
+        "timeZoneId": "Eastern Standard Time",
         "notificationSettings": {
           "status": "Disabled",
           "timeInMinutes": 15
