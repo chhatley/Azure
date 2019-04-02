@@ -108,7 +108,7 @@
       },
       "Tier 0 Subnet FE Name": {
         "type": "string",
-        "defaultValue": "T0-Subnet-FE-01"
+        "defaultValue": "T0-SN-FE-01"
       },
       "Tier 0 Subnet BE Name": {
         "type": "string",
