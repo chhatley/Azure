@@ -141,7 +141,7 @@
       }
     },
   "variables": {
-    "assetLocation": "https://github.com/chhatley/Azure/tree/master/Deploy_OPNAV_ADDS_Solution/Deploy_OPNAV_ADDS_Project",
+    "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Deploy_OPNAV_ADDS_Solution/Deploy_OPNAV_ADDS_Project/",
     "VMSize": "[parameters('VirtualMachineSize')]",
     "dc1VMOSVersion": "[parameters('DC1VMImageSKU')]",
     "dc2VMOSVersion": "[parameters('DC2VMImageSKU')]",
