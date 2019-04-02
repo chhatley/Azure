@@ -35,7 +35,8 @@
       "type": "string",
       "allowedValues": [
         "2012-R2-Datacenter",
-        "2016-Datacenter"
+        "2016-Datacenter",
+        "2019-Datacenter"
       ],
       "metadata": {
         "description": "Choose OS type for Domain  Controller"
@@ -46,23 +47,25 @@
       "type": "string",
       "allowedValues": [
         "2012-R2-Datacenter",
-        "2016-Datacenter"
+        "2016-Datacenter",
+        "2019-Datacenter"
       ],
       "metadata": {
         "description": "Choose OS type for DC2 Server"
       },
-      "defaultValue": "2016-Datacenter"
+      "defaultValue": "2019-Datacenter"
     },
     "JumpServerVMImageSKU": {
       "type": "string",
       "allowedValues": [
         "2012-R2-Datacenter",
-        "2016-Datacenter"
+        "2016-Datacenter",
+        "2019-Datacenter"
       ],
       "metadata": {
         "description": "Choose OS type for DC2 Server"
       },
-      "defaultValue": "2016-Datacenter"
+      "defaultValue": "2019-Datacenter"
     },
       "VirtualMachineSize": {
         "type": "string",
@@ -233,7 +236,7 @@
       {
         "name": "[variables('adAvailabilitySetName')]",
         "type": "Microsoft.Compute/availabilitySets",
-        "apiVersion": "2018-02-01-preview",
+        "apiVersion": "2015-05-01-preview",
         "location": "[resourceGroup().location]",
         "properties": {
           "PlatformUpdateDomainCount": 3,

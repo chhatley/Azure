@@ -82,12 +82,13 @@
       "type": "string",
       "allowedValues": [
         "2012-R2-Datacenter",
-        "2016-Datacenter"
+        "2016-Datacenter",
+        "2019-Datacenter"
       ],
       "metadata": {
         "description": "The SKU Name of Windows Image"
       },
-      "defaultValue": "2016-Datacenter"
+      "defaultValue": "2019-Datacenter"
     },
     "windowsImageVersion": {
       "type": "string",
