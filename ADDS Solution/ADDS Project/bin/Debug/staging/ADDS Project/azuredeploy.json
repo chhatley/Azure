@@ -44,6 +44,7 @@
       "name": "Create T0 ADDS Resource Group",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
+      "dependsOn": [ ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -60,6 +61,7 @@
       "name": "Create T0 NSG Resource Group",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
+      "dependsOn": [ ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -76,6 +78,7 @@
       "name": "Create GL vNet Resource Group",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
+      "dependsOn": [ ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {

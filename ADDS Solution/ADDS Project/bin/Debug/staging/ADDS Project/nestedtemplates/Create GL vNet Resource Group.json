@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "Location": {
+      "type": "string",
+      "defaultValue": "EastUS",
+      "allowedValues": [
+        "EastUS2",
+        "EastUS",
+        "CentralUS",
+        "SouthCentralUS",
+        "NorthCentralUS",
+        "WestUS"
+      ]
+    },
+    "Global vNet Resource Group Name": {
+      "type": "string",
+      "defaultValue": "GL-vNet-East-RG"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Resources/resourcegroups",
+      "apiVersion": "2019-03-01",
+      "location": "[parameters('location')]",
+      "name": "[parameters('Global vNet Resource Group Name')]",
+      "properties": {}
+    }
+  ],
+  "outputs": {}
+}
