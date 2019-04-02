@@ -141,7 +141,7 @@
     "DeployDC2ADId": "[concat('Microsoft.Resources/deployments/', variables('deployDC2Ad'))]",
     "UpdateVNetDNS1": "UpdateVNetDNS",
     "UpdateVNetDNS2": "UpdateVNetDNS2",
-    "vNetwithDNSTemplateURL": "[concat(variables('_assetLocation'),'/data/vNetDNSupdate.json')]",
+    "vNetwithDNSTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/vNetDNSupdate.json')]",
     "JumpVMDeployment": "CreateJumpBoxVM",
     "JumpVMDeploymentId": "[concat('Microsoft.Resources/deployments/', variables('jumpVmDeployment'))]",
     "ADAvailabilitySetName": "[parameters('T0 AD Availability Set Name')]",
