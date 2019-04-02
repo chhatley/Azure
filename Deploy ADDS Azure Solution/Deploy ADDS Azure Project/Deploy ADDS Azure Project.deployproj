@@ -24,8 +24,9 @@
   <!-- vertag<:>end -->
   <ItemGroup>
     <None Include="ADScripts\DeployADDS.zip" />
-    <Content Include="DeployADDSMaster.json" />
+    <Content Include="DeployADDSMasterold.json" />
     <Content Include="DeployADDSMaster.parameters.json" />
+    <None Include="DeployADDSMaster.json" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>

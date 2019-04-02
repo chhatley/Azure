@@ -1,6 +1,7 @@
 ﻿{
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
+
   "parameters": {
     "DomainName": {
       "type": "string",
@@ -56,7 +57,7 @@
     },
     "DC1VMImageSKU": {
       "type": "string",
-      "defaultValue": "2019-Datacenter",
+      "defaultValue" : "2019-Datacenter",
       "allowedValues": [
         "2012-R2-Datacenter",
         "2016-Datacenter",
@@ -90,95 +91,6 @@
         "Standard_DS2_v2"
       ]
     }
-  },
-  "variables": {
-      "_assetLocation": "https://github.com/chhatley/Azure/tree/master/Deploy%20ADDS%20Azure%20Solution/Deploy%20ADDS%20Azure%20Project",
-      "VirtualMachineSize": "[parameters('VirtualMachineSize')]",
-      "DC1VMOSVersion": "[parameters('DC1VMImageSKU')]",
-      "DC2VMOSVersion": "[parameters('DC2VMImageSKU')]",
-      "JumpserverVMOSVersion": "[parameters('JumpServerVMImageSKU')]",
-      "VirtualNetworkAddressRange": "172.16.0.0/16",
-      "FrontendNetworkSubnet": "172.16.1.0/24",
-      "BackendNetworkSubnet": "172.16.2.0/24",
-      "PrimaryDC1IpAddress": "172.16.1.4",
-      "PrimaryDC2IpAddress": "172.16.1.5",
-      "PrimaryJumpServerIpAddress": "172.16.2.4",
-      "vNetTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/vNetDeployment.json')]",
-      "NSGTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/NSGDeployment.json')]",
-      "PublicIPTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/DeployPublicIP.json')]",
-      "DC1TemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/DC1VMTemplate.json')]",
-      "DC2TemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/DC2VMTemplate.json')]",
-      "JumpServerTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/JumpServerVM.json')]",
-      "DeployPrimaryAdTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/DeployPrimaryAD.json')]",
-      "DeployDC2AdTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/PromoteSecondDC.json')]",
-      "DNSPrefix": "[tolower(concat(resourceGroup().name,'jump'))]",
-      "DC1VmDeployment": "CreateADDC1VM",
-      "DC1VmDeploymentId": "[concat('Microsoft.Resources/deployments/', variables('dc1VmDeployment'))]",
-      "DC1VMName": "[parameters('DC1 Hostname')]",
-      "DC2VmDeployment": "CreateADDC2VM",
-      "DC2VmDeploymentId": "[concat('Microsoft.Resources/deployments/', variables('dc2VmDeployment'))]",
-      "DC2VMName": "[parameters('DC2 Hostname')]",
-      "JumpVMName": "[parameters('T0 Jump Server Hostname')]",
-      "DeployVNet": "DeployVNet",
-      "DeployVNetId": "[concat('Microsoft.Resources/deployments/', variables('deployVNet'))]",
-      "DeployNSGs": "DeployNSGs",
-      "DeployNSGsId": "[concat('Microsoft.Resources/deployments/', variables('deployNSGs'))]",
-      "DeployPrimaryAD": "ConfigureAD",
-      "DeployPrimaryADId": "[concat('Microsoft.Resources/deployments/', variables('deployPrimaryAd'))]",
-      "DeployDC2AD": "ConfigureADDC2",
-      "DeployDC2ADId": "[concat('Microsoft.Resources/deployments/', variables('deployDC2Ad'))]",
-      "UpdateVNetDNS1": "UpdateVNetDNS",
-      "UpdateVNetDNS2": "UpdateVNetDNS2",
-      "vNetwithDNSTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/vNetDNSupdate.json')]",
-      "JumpVMDeployment": "CreateJumpBoxVM",
-      "JumpVMDeploymentId": "[concat('Microsoft.Resources/deployments/', variables('jumpVmDeployment'))]",
-      "ADAvailabilitySetName": "[parameters('T0 AD Availability Set Name')]",
-      "ImageOffer": "WindowsServer",
-      "ImagePublisher": "MicrosoftWindowsServer",
-      "PublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
-      "PubliclbID": "[resourceId('Microsoft.Network/loadBalancers',variables('publicLBName'))]",
-      "PubliclbFEConfigID": "[concat(variables('publiclbID'),'/frontendIPConfigurations/',variables('lbFE'))]",
-      "ADRDPNATRuleID": "[concat(variables('PublicLBID'),'/inboundNatRules/',variables('RDPNAT'))]",
-      "DeployPublicIP": "DeployPublicIP",
-      "DeployPublicIPId": "[concat('Microsoft.Resources/deployments/', variables('deployPublicIP'))]",
-      "PublicLBName": "[parameters('T0 Public Load Balancer Name')]",
-      "PublicIPAddressName": "[concat('ADlbPublicIP',resourceGroup().name)]",
-      "LBFE": "[concat('ADLBFE',resourceGroup().name)]",
-      "RDPNAT": "[concat('ADRDPNAT',resourceGroup().name)]",
-      "RDPPort": "3389",
-      "BENSGName": "[concat('BackEndADNSG',resourceGroup().name)]",
-      "BENSGid": "[resourceId('Microsoft.Network/networkSecurityGroups',variables('FENSGName'))]",
-      "FENSGName": "[concat('FrontEndADNSG',resourceGroup().name)]",
-      "FENSGID": "[resourceId('Microsoft.Network/networkSecurityGroups',variables('FENSGName'))]",
-      "DC1NICName": "[concat('DC1Nic',resourceGroup().name)]",
-      "DC2NICName": "[concat('DC2Nic',resourceGroup().name)]",
-      "JumpNICName": "[concat('T0JumpBoxNic',resourceGroup().name)]",
-      "VirtualNetworkName": "[parameters('T0 AD vNet Name')]",
-      "vNetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('VirtualNetworkName'))]",
-      "BackendSubnetName": "[concat('BackEndADSubnet',resourceGroup().name)]",
-      "BackendSubnetID": "[concat(variables('vNetID'),'/subnets/',variables('BackendSubnetName'))]",
-      "FrontendSubnetName": "[concat('FrontEndADSubnet',resourceGroup().name)]",
-      "FrontendSubnetID": "[concat(variables('vNetID'),'/subnets/',variables('FrontendSubnetName'))]",
-      "subnets": [
-        {
-          "name": "[variables('backendSubnetName')]",
-          "properties": {
-            "addressPrefix": "[variables('backendNetworkSubnet')]",
-            "networkSecurityGroup": {
-              "id": "[variables('beNSGID')]"
-            }
-          }
-        },
-        {
-          "name": "[variables('frontendSubnetName')]",
-          "properties": {
-            "addressPrefix": "[variables('frontendNetworkSubnet')]",
-            "networkSecurityGroup": {
-              "id": "[variables('feNSGID')]"
-            }
-          }
-        }
-      ]
   },
   "resources": [
     {
@@ -587,6 +499,93 @@
       }
     }
   ],
-  "outputs": {
+  "variables": {
+    "_assetLocation": "https://github.com/chhatley/Azure/tree/master/Deploy%20ADDS%20Azure%20Solution/Deploy%20ADDS%20Azure%20Project",
+    "VirtualMachineSize": "[parameters('VirtualMachineSize')]",
+    "DC1VMOSVersion": "[parameters('DC1VMImageSKU')]",
+    "DC2VMOSVersion": "[parameters('DC2VMImageSKU')]",
+    "JumpserverVMOSVersion": "[parameters('JumpServerVMImageSKU')]",
+    "VirtualNetworkAddressRange": "172.16.0.0/16",
+    "FrontendNetworkSubnet": "172.16.1.0/24",
+    "BackendNetworkSubnet": "172.16.2.0/24",
+    "PrimaryDC1IpAddress": "172.16.1.4",
+    "PrimaryDC2IpAddress": "172.16.1.5",
+    "PrimaryJumpServerIpAddress": "172.16.2.4",
+    "vNetTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/vNetDeployment.json')]",
+    "NSGTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/NSGDeployment.json')]",
+    "PublicIPTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/DeployPublicIP.json')]",
+    "DC1TemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/DC1VMTemplate.json')]",
+    "DC2TemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/DC2VMTemplate.json')]",
+    "JumpServerTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/JumpServerVM.json')]",
+    "DeployPrimaryAdTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/DeployPrimaryAD.json')]",
+    "DeployDC2AdTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/PromoteSecondDC.json')]",
+    "DNSPrefix": "[tolower(concat(resourceGroup().name,'jump'))]",
+    "DC1VmDeployment": "CreateADDC1VM",
+    "DC1VmDeploymentId": "[concat('Microsoft.Resources/deployments/', variables('dc1VmDeployment'))]",
+    "DC1VMName": "[parameters('DC1 Hostname')]",
+    "DC2VmDeployment": "CreateADDC2VM",
+    "DC2VmDeploymentId": "[concat('Microsoft.Resources/deployments/', variables('dc2VmDeployment'))]",
+    "DC2VMName": "[parameters('DC2 Hostname')]",
+    "JumpVMName": "[parameters('T0 Jump Server Hostname')]",
+    "DeployVNet": "DeployVNet",
+    "DeployVNetId": "[concat('Microsoft.Resources/deployments/', variables('deployVNet'))]",
+    "DeployNSGs": "DeployNSGs",
+    "DeployNSGsId": "[concat('Microsoft.Resources/deployments/', variables('deployNSGs'))]",
+    "DeployPrimaryAD": "ConfigureAD",
+    "DeployPrimaryADId": "[concat('Microsoft.Resources/deployments/', variables('deployPrimaryAd'))]",
+    "DeployDC2AD": "ConfigureADDC2",
+    "DeployDC2ADId": "[concat('Microsoft.Resources/deployments/', variables('deployDC2Ad'))]",
+    "UpdateVNetDNS1": "UpdateVNetDNS",
+    "UpdateVNetDNS2": "UpdateVNetDNS2",
+    "vNetwithDNSTemplateURL": "[concat(variables('_assetLocation'),'/LinkedTemplates/vNetDNSupdate.json')]",
+    "JumpVMDeployment": "CreateJumpBoxVM",
+    "JumpVMDeploymentId": "[concat('Microsoft.Resources/deployments/', variables('jumpVmDeployment'))]",
+    "ADAvailabilitySetName": "[parameters('T0 AD Availability Set Name')]",
+    "ImageOffer": "WindowsServer",
+    "ImagePublisher": "MicrosoftWindowsServer",
+    "PublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
+    "PubliclbID": "[resourceId('Microsoft.Network/loadBalancers',variables('publicLBName'))]",
+    "PubliclbFEConfigID": "[concat(variables('publiclbID'),'/frontendIPConfigurations/',variables('lbFE'))]",
+    "ADRDPNATRuleID": "[concat(variables('PublicLBID'),'/inboundNatRules/',variables('RDPNAT'))]",
+    "DeployPublicIP": "DeployPublicIP",
+    "DeployPublicIPId": "[concat('Microsoft.Resources/deployments/', variables('deployPublicIP'))]",
+    "PublicLBName": "[parameters('T0 Public Load Balancer Name')]",
+    "PublicIPAddressName": "[concat('ADlbPublicIP',resourceGroup().name)]",
+    "LBFE": "[concat('ADLBFE',resourceGroup().name)]",
+    "RDPNAT": "[concat('ADRDPNAT',resourceGroup().name)]",
+    "RDPPort": "3389",
+    "BENSGName": "[concat('BackEndADNSG',resourceGroup().name)]",
+    "BENSGid": "[resourceId('Microsoft.Network/networkSecurityGroups',variables('FENSGName'))]",
+    "FENSGName": "[concat('FrontEndADNSG',resourceGroup().name)]",
+    "FENSGID": "[resourceId('Microsoft.Network/networkSecurityGroups',variables('FENSGName'))]",
+    "DC1NICName": "[concat('DC1Nic',resourceGroup().name)]",
+    "DC2NICName": "[concat('DC2Nic',resourceGroup().name)]",
+    "JumpNICName": "[concat('T0JumpBoxNic',resourceGroup().name)]",
+    "VirtualNetworkName": "[parameters('T0 AD vNet Name')]",
+    "vNetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('VirtualNetworkName'))]",
+    "BackendSubnetName": "[concat('BackEndADSubnet',resourceGroup().name)]",
+    "BackendSubnetID": "[concat(variables('vNetID'),'/subnets/',variables('BackendSubnetName'))]",
+    "FrontendSubnetName": "[concat('FrontEndADSubnet',resourceGroup().name)]",
+    "FrontendSubnetID": "[concat(variables('vNetID'),'/subnets/',variables('FrontendSubnetName'))]",
+    "subnets": [
+      {
+        "name": "[variables('backendSubnetName')]",
+        "properties": {
+          "addressPrefix": "[variables('backendNetworkSubnet')]",
+          "networkSecurityGroup": {
+            "id": "[variables('beNSGID')]"
+          }
+        }
+      },
+      {
+        "name": "[variables('frontendSubnetName')]",
+        "properties": {
+          "addressPrefix": "[variables('frontendNetworkSubnet')]",
+          "networkSecurityGroup": {
+            "id": "[variables('feNSGID')]"
+          }
+        }
+      }
+    ]
   }
 }
