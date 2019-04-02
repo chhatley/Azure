@@ -236,7 +236,7 @@
       {
         "name": "[variables('adAvailabilitySetName')]",
         "type": "Microsoft.Compute/availabilitySets",
-        "apiVersion": "2015-05-01-preview",
+        "apiVersion": "2015-06-15",
         "location": "[resourceGroup().location]",
         "properties": {
           "PlatformUpdateDomainCount": 3,
