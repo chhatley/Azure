@@ -12,23 +12,17 @@
         #>
 
 # Extract Scripts
+Expand-Archive .\ExportImportAD.zip -Force
 
-Expand-Archive .\ExportImportAD.zip .\$diadscripts -Force
-
-$diadscripts = ".\ExportImport\"
- 
-
-# Import DIAD OUs/GPOs
+$diadscripts = ".\ExportImportAD\ExportImportAD\"
 
 cd $diadscripts
 
-powershell -ExecutionPolicy Unrestricted -File "$diadscripts\ExportImport-AD.ps1" -RestoreAll -restorepolicies -LinkGPOs -Link2016 -LinkDomainPolicies -RedirectComputersContainers -BackupFolder "$diadscripts\" -SettingsFile "$diadscripts\settings.xml" -force
-
+# Import DIAD OUs/GPOs
+powershell -ExecutionPolicy Unrestricted -File ".\ExportImport-AD.ps1" -RestoreAll -restorepolicies -LinkGPOs -Link2016 -LinkDomainPolicies -RedirectComputersContainers -BackupFolder ".\" -SettingsFile ".\settings.xml" -force
 
 # Wait 30 seconds
-
 Start-Sleep -Seconds 30
 
 # copy the ADMXs to the domain controller
-
-powershell -ExecutionPolicy Unrestricted -File "$diadscripts\ImportADMXs.ps1" -backupfolder "$diadscripts\"
+powershell -ExecutionPolicy Unrestricted -File ".\ImportADMXs.ps1" -backupfolder ".\"

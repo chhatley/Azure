@@ -31,6 +31,7 @@
     <None Include="data\DeployADDS.zip" />
     <None Include="data\deployPrimaryAD.json" />
     <None Include="data\ExportImportAD.zip" />
+    <None Include="data\ExportImportADold.zip" />
     <None Include="data\ExtendAD-DIAD.ps1" />
     <None Include="data\jumpServerVm.json" />
     <None Include="data\nsgDeployment.json" />
