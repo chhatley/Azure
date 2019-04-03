@@ -25,6 +25,11 @@ If($Global:ErrorCode -gt 1){Exit-Script}
 Remove-Module copy-files -Verbose
 Remove-Module add-log -Verbose
 
+$installDIADScriptdir = "..\..\Applicatons\CFG-AD\"
+$sCMD = "$installDIADScriptdir\Install-DIAD.ps1 -Force"
+
+Invoke-Expression $sCMD
+
 Exit-Script
 
 
