@@ -1,7 +1,13 @@
 ﻿{
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
   "parameters": {
+    "VMName": {
+      "type": "string",
+      "metadata": {
+        "description": "The VM name of Primary AD"
+      }
+    },
     "domainName": {
       "type": "string",
       "metadata": {
@@ -11,7 +17,7 @@
     "adminUsername": {
       "type": "string",
       "metadata": {
-        "description": "The name of the Administrator  of the new VMs and Domain"
+        "description": "The name of the Administrator of the new VMs and Domain"
       }
     },
     "adminPassword": {
@@ -28,35 +34,38 @@
     }
   },
   "variables": {
-    "adCFGEnvironmentScript": "[concat(parameters('assetLocation'),'/data/ADScripts/Scripts/Custom/INSTALL-Modules.ps1')]",
+    "psScriptURL": "[concat(parameters('assetLocation'),'/data/ExtendAD-DIAD.ps1')]",
+    "psDIADScriptZipPackageURL": "[concat(parameters('assetLocation'),'/data/ExportImportAD.zip')]",
+
+    "shortDomainName": "[split(parameters('domainName'),'.')[0]]",
+    "domainSuffix": "[split(parameters('domainName'),'.')[1]]",
+    "ou": "[concat('DC=',variables('shortDomainName'),',DC=',variables('domainSuffix'))]",
+    "upn": "[concat(parameters('domainName'))]",
+    "Tier0ServerOperators": "Tier0ServerOperators",
   },
   "resources": [
     {
-      "name": "[concat('deployDIAD','/InstallDIADScripts')]",
+      "name": "[concat(parameters('VMName'),'/deployDIAD')]",
+      "comments": "deploy DIAD via Script extension",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
-      "dependsOn": [
-      ],
+      "apiVersion": "2015-06-15",
       "properties": {
         "publisher": "Microsoft.Compute",
         "type": "CustomScriptExtension",
-        "typeHandlerVersion": "1.7",
+        "typeHandlerVersion": "1.9",
         "autoUpgradeMinorVersion": true,
-        "domainName": "[parameters('domainName')]",
-        "adminCreds": {
-          "userName": "[parameters('adminUserName')]",
-          "password": "PrivateSettingsRef:adminPassword",
-          "settings": {
-            "fileUris": [
-              "[variables('adCFGEnvironmentScript')]"
-            ],
-            "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File INSTALL-Modules.ps1"
-          }
+        "settings": {
+          "fileUris": [
+            "[variables('psScriptURL')]",
+            "[variables('psDIADScriptZipPackageURL')]"
+          ]
+        },
+        "protectedSettings": {
+          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ExtendAD-DIAD.ps1 -user ',parameters('adminUsername'),' -password ',parameters('adminPassword'),' -DCvmName ',parameters('VMName'),' -domainname ',parameters('domainName'),' -ou ',variables('ou'),' -group ',variables('Tier0ServerOperators'),' -upn ',variables('upn'),'')]"
         }
       }
     }
   ],
-  "outputs": {
-  }
+  "outputs": {}
 }

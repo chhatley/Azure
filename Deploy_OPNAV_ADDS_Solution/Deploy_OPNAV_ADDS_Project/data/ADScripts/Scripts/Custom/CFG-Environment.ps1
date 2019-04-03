@@ -1,1 +1,0 @@
-[Environment]::SetEnvironmentVariable("LastActionStatus", $null, "machine")
