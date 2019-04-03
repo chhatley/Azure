@@ -14,6 +14,12 @@
         "description": "The domain name"
       }
     },
+    "cfgADEnv": {
+      "type": "string",
+      "metadata": {
+        "description": "The VM name of Primary AD"
+      }
+    },
     "adminUsername": {
       "type": "string",
       "metadata": {
@@ -34,10 +40,10 @@
     }
   },
   "variables": {
-    "deployDSC": "DeployDSC",
-    "deployDSCId": "[concat('Microsoft.Compute/virtualMachines/DeployDC1/', variables('DeployDSC'))]",
-    "deployCFGEnv": "deployCFGEnv",
-    "deployCFGEnvironmentId": "[concat('Microsoft.Compute/virtualMachines/extensions/deployDC01/', variables('deployCFGEnv'))]",
+    "deployDSC": "[concat(parameters('dc1VMName'),'/INSTALLDSC')]",
+    "deployDSCId": "[concat('Microsoft.Compute/virtualMachines/extensions/', variables('DeployDSC'))]",
+    "deployCFGEnv": "[concat(parameters('cfgADEnv'),'/CFGEnv')]",
+    "deployCFGEnvId": "[concat('Microsoft.Compute/virtualMachines/extensions/', variables('deployCFGEnv'))]",
     "deployDIAD": "deployDIAD",
     "adPDCModulesURL": "[concat(parameters('assetLocation'),'/data/DeployADDS.zip')]",
     "adPDCConfigurationFunction": "DeployADDS.ps1\\CreateADPDC",
@@ -46,7 +52,7 @@
   },
   "resources": [
     {
-      "name": "[concat('DeployDC1/', variables('deployDSC'))]",
+      "name": "[variables('deployDSC')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
@@ -74,7 +80,7 @@
       }
     },
     {
-      "name": "[concat('deployDC01/', variables('deployCFGEnv'))]",
+      "name": "[variables('deployCFGEnv')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
@@ -100,7 +106,7 @@
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[variables('deployCFGEnvironmentId')]"
+        "[variables('deployCFGEnvId')]"
       ],
       "properties": {
         "publisher": "Microsoft.Compute",
