@@ -69,8 +69,8 @@
       }
     },
     {
+      "name": "[concat(parameters('dc1VMName'),'/CFGEnvironment')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(parameters('dc1VMName'),'/Environment')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "dependsOn": [
@@ -90,12 +90,12 @@
       }
     },
     {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('dc1VMName'),'/INSTALLDIAD')]",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat(parameters('dc1VMName'),'/Environment')]"
+        "[concat(parameters('dc1VMName'),'/CFGADEnvironment')]"
       ],
       "properties": {
         "publisher": "Microsoft.Compute",
