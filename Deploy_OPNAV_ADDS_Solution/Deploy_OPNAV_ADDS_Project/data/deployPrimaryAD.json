@@ -16,9 +16,7 @@
     },
     "cfgADEnv": {
       "type": "string",
-      "metadata": {
-        "description": "The VM name of Primary AD"
-      }
+      "defaultValue": "cfgADEnv"
     },
     "adminUsername": {
       "type": "string",
