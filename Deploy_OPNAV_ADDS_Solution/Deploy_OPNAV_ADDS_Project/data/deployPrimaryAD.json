@@ -35,7 +35,7 @@
   },
   "variables": {
     "deployDSC": "DeployDSC",
-    "deployDSCId": "[concat('Microsoft.Compute/virtualMachines/extensions/deploydc01/', variables('DeployDSC'))]",
+    "deployDSCId": "[concat('Microsoft.Compute/virtualMachines/extensions/deploydc1/', variables('DeployDSC'))]",
     "deployCFGEnvironment": "deployCFGEnvironment",
     "deployCFGEnvironmentId": "[concat('Microsoft.Compute/virtualMachines/extensions/deploydc01/', variables('deployCFGEnvironment'))]",
     "deployDIAD": "deployDIAD",
@@ -46,7 +46,7 @@
   },
   "resources": [
     {
-      "name": "[concat('deployDC01/', variables('deployDSC'))]",
+      "name": "[concat('deployDC1/', variables('deployDSC'))]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
