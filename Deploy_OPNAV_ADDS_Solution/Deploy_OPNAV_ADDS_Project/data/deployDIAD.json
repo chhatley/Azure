@@ -1,0 +1,57 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+  },
+  "variables": {
+    "adCFGEnvironmentScript": "[concat(parameters('assetLocation'),'/data/ADScripts/Scripts/Custom/INSTALL-Modules.ps1')]",
+    "adCFGDIADScript": "[concat(parameters('assetLocation'),'/data/ADScripts/Applications/CFG-AD/INSTALL-DIAD.ps1')]"
+  },
+  "resources": [
+    {
+      "name": "[variables('deployCFGEnv')]",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[variables('deployDSCId')]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.7",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "[variables('adCFGEnvironmentScript')]"
+          ],
+          "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File INSTALL-Modules.ps1"
+        }
+      }
+    },
+    {
+      "name": "[concat('deployDC01/', variables('deployDIAD'))]",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[variables('deployCFGEnvId')]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.7",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "[variables('adCFGDIADScript')]"
+
+          ],
+          "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File INSTALL-DIAD.ps1"
+        }
+      }
+    }
+  ],
+  "outputs": {
+  }
+}
