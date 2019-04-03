@@ -9,26 +9,17 @@
         please see the license agreement between you and Microsoft or, if applicable,
         see the LICENSE.RTF on your install media or the root of your tools installation.
         THE SAMPLE SOURCE CODE IS PROVIDED "AS IS", WITH NO WARRANTIES.
-        #>
+       
+    .DESCRIPTION 
+        V1.2 12 September 2017 - Updated for 1703 baselines
+        V1.1 02 February 2017 - renamed policies
+        V1.0 16 August 2016
+        
 
-# Extract Scripts
+#>
 
-Expand-Archive .\ExportImportAD.zip .\$diadscripts -Force
+$DomainDN = get-ADDomain |select -ExpandProperty DistinguishedName
 
-$diadscripts = ".\ExportImport\"
- 
+Set-GPLink -Name "*- Additional Domain Security Settings" -Target $DomainDN -LinkEnabled Yes
+Set-GPLink -Name "*- MSFT Windows 10 and Server 2016 - Domain Security" -Target $DomainDN -LinkEnabled Yes
 
-# Import DIAD OUs/GPOs
-
-cd $diadscripts
-
-powershell -ExecutionPolicy Unrestricted -File "$diadscripts\ExportImport-AD.ps1" -RestoreAll -restorepolicies -LinkGPOs -Link2016 -LinkDomainPolicies -RedirectComputersContainers -BackupFolder "$diadscripts\" -SettingsFile "$diadscripts\settings.xml" -force
-
-
-# Wait 30 seconds
-
-Start-Sleep -Seconds 30
-
-# copy the ADMXs to the domain controller
-
-powershell -ExecutionPolicy Unrestricted -File "$diadscripts\ImportADMXs.ps1" -backupfolder "$diadscripts\"

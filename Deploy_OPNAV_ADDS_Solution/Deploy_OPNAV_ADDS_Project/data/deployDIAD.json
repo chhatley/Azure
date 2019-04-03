@@ -41,7 +41,7 @@
     "domainSuffix": "[split(parameters('domainName'),'.')[1]]",
     "ou": "[concat('DC=',variables('shortDomainName'),',DC=',variables('domainSuffix'))]",
     "upn": "[concat(parameters('domainName'))]",
-    "Tier0ServerOperators": "Tier0ServerOperators",
+    "Tier0ServerOperators": "Tier0ServerOperators"
   },
   "resources": [
     {

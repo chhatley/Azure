@@ -9,26 +9,16 @@
         please see the license agreement between you and Microsoft or, if applicable,
         see the LICENSE.RTF on your install media or the root of your tools installation.
         THE SAMPLE SOURCE CODE IS PROVIDED "AS IS", WITH NO WARRANTIES.
-        #>
+       
+    .DESCRIPTION 
+        V1.0 11 April 2018 - first version
+        
 
-# Extract Scripts
-
-Expand-Archive .\ExportImportAD.zip .\$diadscripts -Force
-
-$diadscripts = ".\ExportImport\"
- 
-
-# Import DIAD OUs/GPOs
-
-cd $diadscripts
-
-powershell -ExecutionPolicy Unrestricted -File "$diadscripts\ExportImport-AD.ps1" -RestoreAll -restorepolicies -LinkGPOs -Link2016 -LinkDomainPolicies -RedirectComputersContainers -BackupFolder "$diadscripts\" -SettingsFile "$diadscripts\settings.xml" -force
-
-
-# Wait 30 seconds
-
-Start-Sleep -Seconds 30
-
-# copy the ADMXs to the domain controller
-
-powershell -ExecutionPolicy Unrestricted -File "$diadscripts\ImportADMXs.ps1" -backupfolder "$diadscripts\"
+#>
+Import-Module Admpwd.ps
+set-AdmPwdComputerSelfPermission T0-Devices
+set-AdmPwdComputerSelfPermission T1-Devices
+set-AdmPwdComputerSelfPermission T2-Devices
+set-AdmPwdComputerSelfPermission Devices
+set-AdmPwdComputerSelfPermission "Tier 1 Servers"
+set-AdmPwdComputerSelfPermission T0-Servers
