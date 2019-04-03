@@ -14,10 +14,6 @@
         "description": "The domain name"
       }
     },
-    "cfgADEnv": {
-      "type": "string",
-      "defaultValue": "cfgADEnv"
-    },
     "adminUsername": {
       "type": "string",
       "metadata": {
@@ -38,9 +34,10 @@
     }
   },
   "variables": {
+    "cfgADEnv": "cfgADEnv",
     "deployDSC": "[concat(parameters('dc1VMName'),'/INSTALLDSC')]",
     "deployDSCId": "[concat('Microsoft.Compute/virtualMachines/extensions/', variables('DeployDSC'))]",
-    "deployCFGEnv": "[concat(parameters('cfgADEnv'),'/CFGEnv')]",
+    "deployCFGEnv": "[concat(variables('cfgADEnv'),'/CFGEnv')]",
     "deployCFGEnvId": "[concat('Microsoft.Compute/virtualMachines/extensions/', variables('deployCFGEnv'))]",
     "deployDIAD": "deployDIAD",
     "adPDCModulesURL": "[concat(parameters('assetLocation'),'/data/DeployADDS.zip')]",

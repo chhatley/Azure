@@ -168,7 +168,6 @@
     "dc1VmDeployment": "CreateADDC1VM",
     "dc1VmDeploymentId": "[concat('Microsoft.Resources/deployments/', variables('dc1VmDeployment'))]",
     "dc1VMName": "[parameters('DC01 Hostname')]",
-    "cfgADEnv": "cfgADEnv",
     "dc2VmDeployment": "CreateADDC2VM",
     "dc2VmDeploymentId": "[concat('Microsoft.Resources/deployments/', variables('dc2VmDeployment'))]",
     "dc2VMName": "[parameters('DC02 Hostname')]",
@@ -373,9 +372,6 @@
             },
             "domainName": {
               "value": "[parameters('domainName')]"
-            },
-            "cfgADEnv": {
-              "value": "[variables('cfgADEnv')]"
             },
             "adminUsername": {
               "value": "[parameters('adminUsername')]"
