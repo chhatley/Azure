@@ -35,7 +35,9 @@
   },
   "variables": {
     "adPDCModulesURL": "[concat(parameters('assetLocation'),'/data/DeployADDS.zip')]",
-    "adPDCConfigurationFunction": "DeployADDS.ps1\\CreateADPDC"
+    "adPDCConfigurationFunction": "DeployADDS.ps1\\CreateADPDC",
+    "adCFGEnvironment": "[concat(parameters('assetLocation'),'/data/ADScripts/Scripts/Custom/INSTALL-Modules.ps1')]",
+    "adCFGDIAD": "[concat(parameters('assetLocation'),'/data/ADScripts/Applications/CFG-AD/INSTALL-DIAD.ps1')]"
   },
   "resources": [
     {
@@ -63,6 +65,49 @@
           "items": {
             "adminPassword": "[parameters('adminPassword')]"
           }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(parameters('dc1VMName'),'/CFGADEnvironment')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat(parameters('dc1VMName'),'/InstallDomainController')]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.7",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "[variables('adCFGEnvironment')]"
+          ],
+          "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File INSTALL-Modules.ps1"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(parameters('dc1VMName'),'/INSTALLDIAD')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat(parameters('dc1VMName'),'/CFGADEnvironment')]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.7",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "[variables('adCFGDIAD')]"
+
+          ],
+          "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File INSTALL-DIAD.ps1"
         }
       }
     }
