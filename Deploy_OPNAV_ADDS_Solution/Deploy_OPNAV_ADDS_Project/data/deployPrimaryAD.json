@@ -36,8 +36,8 @@
   "variables": {
     "deployDSC": "DeployDSC",
     "deployDSCId": "[concat('Microsoft.Compute/virtualMachines/extensions/deploydc1/', variables('DeployDSC'))]",
-    "deployCFGEnvironment": "deployCFGEnvironment",
-    "deployCFGEnvironmentId": "[concat('Microsoft.Compute/virtualMachines/extensions/deploydc01/', variables('deployCFGEnvironment'))]",
+    "deployCFGEnv": "deployCFGEnv",
+    "deployCFGEnvironmentId": "[concat('Microsoft.Compute/virtualMachines/extensions/deploydc01/', variables('deployCFGEnv'))]",
     "deployDIAD": "deployDIAD",
     "adPDCModulesURL": "[concat(parameters('assetLocation'),'/data/DeployADDS.zip')]",
     "adPDCConfigurationFunction": "DeployADDS.ps1\\CreateADPDC",
@@ -74,7 +74,7 @@
       }
     },
     {
-      "name": "[concat('deployDC01/', variables('deployCFGEnvironment'))]",
+      "name": "[concat('deployDC01/', variables('deployCFGEnv'))]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
