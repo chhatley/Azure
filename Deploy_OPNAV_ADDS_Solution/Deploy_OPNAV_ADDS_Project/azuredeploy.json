@@ -389,35 +389,6 @@
       }
     },
     {
-      "name": "[variables('deployDIADScripts')]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[variables('deployPrimaryAdId')]"
-      ],
-      "parameters": {
-        "properties": {
-          "mode": "Incremental",
-          "templateLink": {
-            "uri": "[variables('deployDIADScriptsTemplateURL')]",
-            "contentVersion": "1.0.0.0"
-          },
-          "domainName": {
-            "value": "[parameters('domainName')]"
-          },
-          "adminUsername": {
-            "value": "[parameters('adminUsername')]"
-          },
-          "adminPassword": {
-            "value": "[parameters('adminPassword')]"
-          },
-          "assetLocation": {
-            "value": "[variables('assetLocation')]"
-          }
-        }
-      }
-    },
-    {
       "name": "[variables('dc2VmDeployment')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
