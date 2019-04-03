@@ -36,9 +36,9 @@
   "variables": {
     "cfgADEnv": "cfgADEnv",
     "deployDSC": "[concat(parameters('dc1VMName'),'/INSTALLDSC')]",
-    "deployDSCId": "[concat('Microsoft.Compute/virtualMachines/extensions/', variables('DeployDSC'))]",
+    "deployDSCId": "[concat('Microsoft.Compute/virtualMachines/', variables('DeployDSC'))]",
     "deployCFGEnv": "[concat(variables('cfgADEnv'),'/CFGEnv')]",
-    "deployCFGEnvId": "[concat('Microsoft.Compute/virtualMachines/extensions/', variables('deployCFGEnv'))]",
+    "deployCFGEnvId": "[concat('Microsoft.Compute/virtualMachines', variables('deployCFGEnv'))]",
     "deployDIAD": "deployDIAD",
     "adPDCModulesURL": "[concat(parameters('assetLocation'),'/data/DeployADDS.zip')]",
     "adPDCConfigurationFunction": "DeployADDS.ps1\\CreateADPDC",
