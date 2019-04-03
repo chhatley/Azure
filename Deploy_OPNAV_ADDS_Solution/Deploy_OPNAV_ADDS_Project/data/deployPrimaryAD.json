@@ -35,7 +35,7 @@
   },
   "variables": {
     "adPDCModulesURL": "[concat(parameters('assetLocation'),'/data/DeployADDS.zip')]",
-    "adPDCConfigurationFunction": "DeployADDS.ps1\\CreateADPDC",
+    "adPDCConfigurationFunction": "DeployADDS.ps1\\CreateADPDC"
   },
   "resources": [
     {
