@@ -2,6 +2,9 @@
 #Include PS Environment
 . ..\..\Scripts\Custom\PSEnvironment.ps1
 #Exit the script if previous one in a Task Sequence failed
+Invoke-Expression "\..\Scripts\Custom\Install-Modules.ps1" -force
+
+
 try{If ($Global:TSEnv.Value("ContinueOnError") -eq "NO" -and $Global:TSEnv.Value("LastActionStatus") -eq "ERROR"){
         $Global:ErrorCode = -9999;$Global:ErrorMessage = "The last action failed.  Terminating this script.";Exit-Script}}catch{}
 
@@ -87,6 +90,7 @@ Function Set-XADWellKnownContainer ([WellKnownGuid] $wkGuidEnum, [Object] $newCo
     
     Set-ADObject $rootDSE.DefaultNamingContext -Add @{ $wellKnownObjAttributeName = $newContainerValue } -Remove @{ $wellKnownObjAttributeName = $currContainerValue } -server $pdcServer
 }
+
 
 
 # END Functions
