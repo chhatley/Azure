@@ -65,7 +65,7 @@
       "metadata": {
         "description": "The size of the AD VMs Created"
       },
-      "defaultValue": "Standard_DS2_v2"
+      "defaultValue": "Standared DS2_v2"
     },
     "subnetResourceID": {
       "type": "string",

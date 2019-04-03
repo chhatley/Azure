@@ -41,7 +41,7 @@
       "metadata": {
         "description": "Choose OS type for first Domain Controller"
       },
-      "defaultValue": "2019-Datacenter"
+      "defaultValue": "2016-Datacenter"
     },
     "DC2VMImageSKU": {
       "type": "string",
@@ -72,12 +72,12 @@
       "allowedValues": [
         "Standard_B2s",
         "Standard_B2ms",
-        "Standard_DS2_v2"
+        "Standared DS2_v2"
       ],
       "metadata": {
         "description": "VM Size. Hard coded for a lab. To increase size or pricing model, please modify the template."
       },
-      "defaultValue": "Standard_DS2_v2"
+      "defaultValue": "Standared DS2_v2"
     },
       "DC01 Hostname": {
         "type": "string",
@@ -109,7 +109,7 @@
       },
       "Tier 0 Subnet FE Name": {
         "type": "string",
-        "defaultValue": "T0-SN-FE-01"
+        "defaultValue": "T0-Subnet-FE-01"
       },
       "Tier 0 Subnet BE Name": {
         "type": "string",
@@ -119,7 +119,7 @@
         "type": "string",
         "defaultValue": "T0-ADDS-AS-01"
       },
-      "T0 vNet Range": {
+      "vNetworkAddressRange": {
         "type": "string",
         "defaultValue": "172.16.0.0/16"
       },
@@ -150,7 +150,7 @@
     "dc1VMOSVersion": "[parameters('DC1VMImageSKU')]",
     "dc2VMOSVersion": "[parameters('DC2VMImageSKU')]",
     "jumpserverVMOSVersion": "[parameters('JumpServerVMImageSKU')]",
-    "virtualNetworkAddressRange": "[parameters('T0 vNet Range')]",
+    "virtualNetworkAddressRange": "[parameters('vNetworkAddressRange')]",
     "backendNetworkSubnet": "[parameters('backendNetworkSubnet')]",
     "frontendNetworkSubnet": "[parameters('frontendNetworkSubnet')]",
     "primaryDC1IpAddress": "[parameters('primaryDC1IpAddress')]",
@@ -163,7 +163,6 @@
     "dc2TemplateURL": "[concat(variables('assetLocation'),'/data/dc2VmTemplate.json')]",
     "jumpServerTemplateURL": "[concat(variables('assetLocation'),'/data/jumpServerVm.json')]",
     "deployPrimaryAdTemplateURL": "[concat(variables('assetLocation'),'/data/deployPrimaryAD.json')]",
-    "deployDIADScriptsTemplateURL": "[concat(variables('assetLocation'),'/data/deployDIAD.json')]",
     "deployDC2AdTemplateURL": "[concat(variables('assetLocation'),'/data/promoteSecondDC.json')]",
     "dnsPrefix": "[tolower(concat(resourceGroup().name,'jump'))]",
     "dc1VmDeployment": "CreateADDC1VM",
@@ -179,8 +178,6 @@
     "deployNSGsId": "[concat('Microsoft.Resources/deployments/', variables('deployNSGs'))]",
     "deployPrimaryAd": "ConfigureAD",
     "deployPrimaryAdId": "[concat('Microsoft.Resources/deployments/', variables('deployPrimaryAd'))]",
-    "deployDIADScripts": "deployDIADScripts",
-    "deployDIADScriptsId": "[concat('Microsoft.Resources/deployments/', variables('deployDIADScripts'))]",
     "deployDC2Ad": "ConfigureADDC2",
     "deployDC2AdId": "[concat('Microsoft.Resources/deployments/', variables('deployDC2Ad'))]",
     "updateVNetDNS1": "UpdateVNetDNS",
@@ -236,361 +233,360 @@
       }
     ]
   },
-  "resources": [
-    {
-      "name": "[variables('adAvailabilitySetName')]",
-      "type": "Microsoft.Compute/availabilitySets",
-      "apiVersion": "2016-04-30-preview",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "PlatformUpdateDomainCount": 5,
-        "PlatformFaultDomainCount": 2
+    "resources": [
+      {
+        "name": "[variables('adAvailabilitySetName')]",
+        "type": "Microsoft.Compute/availabilitySets",
+        "apiVersion": "2015-05-01-preview",
+        "location": "[resourceGroup().location]",
+        "properties": {
+          "PlatformUpdateDomainCount": 3,
+          "PlatformFaultDomainCount": 2
+        },
+        "sku": {
+          "name": "Aligned"
+        }
       },
-      "sku": {
-        "name": "Aligned"
-      }
-    },
-    {
-      "name": "[variables('deployNSGs')]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": { "uri": "[variables('nsgTemplateURL')]" },
-        "parameters": {
-          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-          "subnets": { "value": "[ variables('subnets')]" },
-          "vNetID": { "value": "[variables('vnetID')]" },
-          "beNSGName": { "value": "[variables('beNSGName')]" },
-          "feNSGName": { "value": "[variables('feNSGName')]" },
-          "beSubnetName": { "value": "[variables('backendSubnetName')]" },
-          "feSubnetName": { "value": "[variables('frontendSubnetName')]" },
-          "beSubnetId": { "value": "[variables('backendSubnetID')]" },
-          "feSubnetId": { "value": "[variables('frontendSubnetID')]" },
-          "sourceClientIP": { "value": "[parameters('sourceClientIP')]" }
+      {
+        "name": "[variables('deployNSGs')]",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": { "uri": "[variables('nsgTemplateURL')]" },
+          "parameters": {
+            "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+            "subnets": { "value": "[ variables('subnets')]" },
+            "vNetID": { "value": "[variables('vnetID')]" },
+            "beNSGName": { "value": "[variables('beNSGName')]" },
+            "feNSGName": { "value": "[variables('feNSGName')]" },
+            "beSubnetName": { "value": "[variables('backendSubnetName')]" },
+            "feSubnetName": { "value": "[variables('frontendSubnetName')]" },
+            "beSubnetId": { "value": "[variables('backendSubnetID')]" },
+            "feSubnetId": { "value": "[variables('frontendSubnetID')]" },
+            "sourceClientIP": { "value": "[parameters('sourceClientIP')]" }
+          }
         }
-      }
-    },
-    {
-      "name": "[variables('deployVNet')]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[variables('deployNSGsId')]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": { "uri": "[variables('vnetTemplateURL')]" },
-        "parameters": {
-          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-          "subnets": { "value": "[ variables('subnets') ]" },
-          "virtualNetworkAddressRange": { "value": "[variables('virtualNetworkAddressRange')]" }
+      },
+      {
+        "name": "[variables('deployVNet')]",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "dependsOn": [
+          "[variables('deployNSGsId')]"
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": { "uri": "[variables('vnetTemplateURL')]" },
+          "parameters": {
+            "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+            "subnets": { "value": "[ variables('subnets') ]" },
+            "virtualNetworkAddressRange": { "value": "[variables('virtualNetworkAddressRange')]" }
+          }
         }
-      }
-    },
-    {
-      "name": "[variables('deployPublicIP')]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[variables('deployVNetId')]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": { "uri": "[variables('publicIPTemplateURL')]" },
-        "parameters": {
-          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-          "subnets": { "value": "[ variables('subnets') ]" },
-          "virtualNetworkAddressRange": { "value": "[variables('virtualNetworkAddressRange')]" },
-          "publicIPAddressName": { "value": "[variables('publicIPAddressName')]" },
-          "dnsPrefix": { "value": "[variables('dnsPrefix')]" },
-          "publicLBName": { "value": "[variables('publicLBName')]" },
-          "lbFE": { "value": "[variables('lbFE')]" },
-          "rpdNAT": { "value": "[variables('rpdNAT')]" },
-          "rdpPort": { "value": "[variables('rdpPort')]" }
+      },
+      {
+        "name": "[variables('deployPublicIP')]",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "dependsOn": [
+          "[variables('deployVNetId')]"
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": { "uri": "[variables('publicIPTemplateURL')]" },
+          "parameters": {
+            "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+            "subnets": { "value": "[ variables('subnets') ]" },
+            "virtualNetworkAddressRange": { "value": "[variables('virtualNetworkAddressRange')]" },
+            "publicIPAddressName": { "value": "[variables('publicIPAddressName')]" },
+            "dnsPrefix": { "value": "[variables('dnsPrefix')]" },
+            "publicLBName": { "value": "[variables('publicLBName')]" },
+            "lbFE": { "value": "[variables('lbFE')]" },
+            "rpdNAT": { "value": "[variables('rpdNAT')]" },
+            "rdpPort": { "value": "[variables('rdpPort')]" }
+          }
         }
-      }
-    },
-    {
-      "name": "[variables('dc1VmDeployment')]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[resourceId('Microsoft.Compute/availabilitySets',variables('adAvailabilitySetName'))]",
-        "[variables('deployVNetId')]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('dc1TemplateURL')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "adminUsername": {
-            "value": "[parameters('adminUsername')]"
+      },
+      {
+        "name": "[variables('dc1VmDeployment')]",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "dependsOn": [
+          "[resourceId('Microsoft.Compute/availabilitySets',variables('adAvailabilitySetName'))]",
+          "[variables('deployVNetId')]"
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri": "[variables('dc1TemplateURL')]",
+            "contentVersion": "1.0.0.0"
           },
-          "adminPassword": {
-            "value": "[parameters('adminPassword')]"
+          "parameters": {
+            "adminUsername": {
+              "value": "[parameters('adminUsername')]"
+            },
+            "adminPassword": {
+              "value": "[parameters('adminPassword')]"
+            },
+            "subnetResourceID": {
+              "value": "[variables('backendSubnetID')]"
+            },
+            "windowsImageSKU": {
+              "value": "[variables('dc1VMOSVersion')]"
+            },
+            "vmName": {
+              "value": "[variables('dc1VMName')]"
+            },
+            "vmSize": {
+              "value": "[variables('VMSize')]"
+            },
+            "adDNicName": {
+              "value": "[variables('dc1NICName')]"
+            },
+            "primaryAdIpAddress": {
+              "value": "[variables('primaryDC1IpAddress')]"
+            },
+            "adAvailabilitySetName": {
+              "value": "[variables('adAvailabilitySetName')]"
+            }
+          }
+        }
+      },
+      {
+        "name": "[variables('deployPrimaryAd')]",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "dependsOn": [
+          "[variables('dc1VmDeploymentId')]"
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri": "[variables('deployPrimaryAdTemplateURL')]",
+            "contentVersion": "1.0.0.0"
           },
-          "subnetResourceID": {
-            "value": "[variables('backendSubnetID')]"
+          "parameters": {
+            "dc1VMName": {
+              "value": "[variables('dc1VMName')]"
+            },
+            "domainName": {
+              "value": "[parameters('domainName')]"
+            },
+            "adminUsername": {
+              "value": "[parameters('adminUsername')]"
+            },
+            "adminPassword": {
+              "value": "[parameters('adminPassword')]"
+            },
+            "assetLocation": {
+              "value": "[variables('assetLocation')]"
+            }
+          }
+        }
+      },
+      {
+        "name": "[variables('dc2VmDeployment')]",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "dependsOn": [
+          "[variables('updateVNetDNS1')]",
+          "[resourceId('Microsoft.Compute/availabilitySets',variables('adAvailabilitySetName'))]"
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri": "[variables('dc2TemplateURL')]",
+            "contentVersion": "1.0.0.0"
           },
-          "windowsImageSKU": {
-            "value": "[variables('dc1VMOSVersion')]"
+          "parameters": {
+            "adminUsername": {
+              "value": "[parameters('adminUsername')]"
+            },
+            "adminPassword": {
+              "value": "[parameters('adminPassword')]"
+            },
+            "subnetResourceID": {
+              "value": "[variables('backendSubnetID')]"
+            },
+            "windowsImageSKU": {
+              "value": "[variables('dc2VMOSVersion')]"
+            },
+            "vmName": {
+              "value": "[variables('dc2VMName')]"
+            },
+            "vmSize": {
+              "value": "[variables('VMSize')]"
+            },
+            "NicName": {
+              "value": "[variables('dc2NICName')]"
+            },
+            "assetLocation": {
+              "value": "[variables('assetLocation')]"
+            },
+            "primaryIpAddress": {
+              "value": "[variables('primaryDC2IpAddress')]"
+            },
+            "domainName": {
+              "value": "[parameters('domainName')]"
+            },
+            "adAvailabilitySetName": {
+              "value": "[variables('adAvailabilitySetName')]"
+            }
+          }
+        }
+      },
+      {
+        "name": "[variables('deployDC2AD')]",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "dependsOn": [
+          "[variables('dc2VmDeploymentId')]"
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri": "[variables('deployDC2AdTemplateURL')]",
+            "contentVersion": "1.0.0.0"
           },
-          "vmName": {
-            "value": "[variables('dc1VMName')]"
+          "parameters": {
+            "dc2VMName": {
+              "value": "[variables('dc2VMName')]"
+            },
+            "domainName": {
+              "value": "[parameters('domainName')]"
+            },
+            "adminUsername": {
+              "value": "[parameters('adminUsername')]"
+            },
+            "adminPassword": {
+              "value": "[parameters('adminPassword')]"
+            },
+            "assetLocation": {
+              "value": "[variables('assetLocation')]"
+            }
+          }
+        }
+      },
+      {
+        "name": "[variables('updateVNetDNS1')]",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "dependsOn": [
+          "[variables('deployPrimaryAdId')]"
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri": "[variables('vnetwithDNSTemplateURL')]",
+            "contentVersion": "1.0.0.0"
           },
-          "vmSize": {
-            "value": "[variables('VMSize')]"
+          "parameters": {
+            "virtualNetworkName": {
+              "value": "[variables('virtualNetworkName')]"
+            },
+            "virtualNetworkAddressRange": {
+              "value": "[variables('virtualNetworkAddressRange')]"
+            },
+            "subnets": {
+              "value": "[variables('subnets')]"
+            },
+            "dnsServerAddress": {
+              "value": [ "[variables('primaryDC1IpAddress')]" ]
+            }
+          }
+        }
+      },
+      {
+        "name": "[variables('updateVNetDNS2')]",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "dependsOn": [
+          "[variables('deployPrimaryAdId')]",
+          "[variables('deployDC2AdId')]"
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri": "[variables('vnetwithDNSTemplateURL')]",
+            "contentVersion": "1.0.0.0"
           },
-          "adDNicName": {
-            "value": "[variables('dc1NICName')]"
+          "parameters": {
+            "virtualNetworkName": {
+              "value": "[variables('virtualNetworkName')]"
+            },
+            "virtualNetworkAddressRange": {
+              "value": "[variables('virtualNetworkAddressRange')]"
+            },
+            "subnets": {
+              "value": "[variables('subnets')]"
+            },
+            "dnsServerAddress": {
+              "value": [
+                "[variables('primaryDC1IpAddress')]",
+                "[variables('primaryDC2IpAddress')]"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "[variables('jumpVmDeployment')]",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "dependsOn": [
+          "[variables('deployPublicIPId')]",
+          "[variables('updateVNetDNS1')]"
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri": "[variables('jumpServerTemplateURL')]",
+            "contentVersion": "1.0.0.0"
           },
-          "primaryAdIpAddress": {
-            "value": "[variables('primaryDC1IpAddress')]"
-          },
-          "adAvailabilitySetName": {
-            "value": "[variables('adAvailabilitySetName')]"
+          "parameters": {
+            "adminUsername": {
+              "value": "[parameters('adminUsername')]"
+            },
+            "adminPassword": {
+              "value": "[parameters('adminPassword')]"
+            },
+            "subnetResourceID": {
+              "value": "[variables('frontendSubnetID')]"
+            },
+            "windowsImageSKU": {
+              "value": "[variables('jumpserverVMOSVersion')]"
+            },
+            "vmName": {
+              "value": "[variables('jumpVMName')]"
+            },
+            "vmSize": {
+              "value": "[variables('VMSize')]"
+            },
+            "jumpNicName": {
+              "value": "[variables('jumpNICName')]"
+            },
+            "primaryIpAddress": {
+              "value": "[variables('primaryJumpServerIpAddress')]"
+            },
+            "domainName": {
+              "value": "[parameters('domainName')]"
+            },
+            "adRDPNATRuleID": {
+              "value": "[variables('adRDPNATRuleID')]"
+            },
+            "publicLBName": {
+              "value": "[variables('publicLBName')]"
+            },
+            "lbFE": {
+              "value": "[variables('lbFE')]"
+            },
+            "rpdNAT": {
+              "value": "[variables('rpdNAT')]"
+            }
           }
         }
       }
-    },
-    {
-      "name": "[variables('deployPrimaryAd')]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[variables('dc1VmDeploymentId')]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('deployPrimaryAdTemplateURL')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "dc1VMName": {
-            "value": "[variables('dc1VMName')]"
-          },
-          "domainName": {
-            "value": "[parameters('domainName')]"
-          },
-          "adminUsername": {
-            "value": "[parameters('adminUsername')]"
-          },
-          "adminPassword": {
-            "value": "[parameters('adminPassword')]"
-          },
-          "assetLocation": {
-            "value": "[variables('assetLocation')]"
-          }
-        }
-      }
-    },
-    {
-      "name": "[variables('dc2VmDeployment')]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[variables('updateVNetDNS1')]",
-        "[resourceId('Microsoft.Compute/availabilitySets',variables('adAvailabilitySetName'))]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('dc2TemplateURL')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "adminUsername": {
-            "value": "[parameters('adminUsername')]"
-          },
-          "adminPassword": {
-            "value": "[parameters('adminPassword')]"
-          },
-          "subnetResourceID": {
-            "value": "[variables('backendSubnetID')]"
-          },
-          "windowsImageSKU": {
-            "value": "[variables('dc2VMOSVersion')]"
-          },
-          "vmName": {
-            "value": "[variables('dc2VMName')]"
-          },
-          "vmSize": {
-            "value": "[variables('VMSize')]"
-          },
-          "NicName": {
-            "value": "[variables('dc2NICName')]"
-          },
-          "assetLocation": {
-            "value": "[variables('assetLocation')]"
-          },
-          "primaryIpAddress": {
-            "value": "[variables('primaryDC2IpAddress')]"
-          },
-          "domainName": {
-            "value": "[parameters('domainName')]"
-          },
-          "adAvailabilitySetName": {
-            "value": "[variables('adAvailabilitySetName')]"
-          }
-        }
-      }
-    },
-    {
-      "name": "[variables('deployDC2AD')]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[variables('dc2VmDeploymentId')]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('deployDC2AdTemplateURL')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "dc2VMName": {
-            "value": "[variables('dc2VMName')]"
-          },
-          "domainName": {
-            "value": "[parameters('domainName')]"
-          },
-          "adminUsername": {
-            "value": "[parameters('adminUsername')]"
-          },
-          "adminPassword": {
-            "value": "[parameters('adminPassword')]"
-          },
-          "assetLocation": {
-            "value": "[variables('assetLocation')]"
-          }
-        }
-      }
-    },
-    {
-      "name": "[variables('updateVNetDNS1')]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[variables('deployDIADScriptsId')]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('vnetwithDNSTemplateURL')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "virtualNetworkName": {
-            "value": "[variables('virtualNetworkName')]"
-          },
-          "virtualNetworkAddressRange": {
-            "value": "[variables('virtualNetworkAddressRange')]"
-          },
-          "subnets": {
-            "value": "[variables('subnets')]"
-          },
-          "dnsServerAddress": {
-            "value": [ "[variables('primaryDC1IpAddress')]" ]
-          }
-        }
-      }
-    },
-    {
-      "name": "[variables('updateVNetDNS2')]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[variables('deployDIADScriptsId')]",
-        "[variables('deployDC2AdId')]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('vnetwithDNSTemplateURL')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "virtualNetworkName": {
-            "value": "[variables('virtualNetworkName')]"
-          },
-          "virtualNetworkAddressRange": {
-            "value": "[variables('virtualNetworkAddressRange')]"
-          },
-          "subnets": {
-            "value": "[variables('subnets')]"
-          },
-          "dnsServerAddress": {
-            "value": [
-              "[variables('primaryDC1IpAddress')]",
-              "[variables('primaryDC2IpAddress')]"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "name": "[variables('jumpVmDeployment')]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[variables('deployPublicIPId')]",
-        "[variables('updateVNetDNS1')]",
-        "[variables('dc2VmDeploymentId')]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('jumpServerTemplateURL')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "adminUsername": {
-            "value": "[parameters('adminUsername')]"
-          },
-          "adminPassword": {
-            "value": "[parameters('adminPassword')]"
-          },
-          "subnetResourceID": {
-            "value": "[variables('frontendSubnetID')]"
-          },
-          "windowsImageSKU": {
-            "value": "[variables('jumpserverVMOSVersion')]"
-          },
-          "vmName": {
-            "value": "[variables('jumpVMName')]"
-          },
-          "vmSize": {
-            "value": "[variables('VMSize')]"
-          },
-          "jumpNicName": {
-            "value": "[variables('jumpNICName')]"
-          },
-          "primaryIpAddress": {
-            "value": "[variables('primaryJumpServerIpAddress')]"
-          },
-          "domainName": {
-            "value": "[parameters('domainName')]"
-          },
-          "adRDPNATRuleID": {
-            "value": "[variables('adRDPNATRuleID')]"
-          },
-          "publicLBName": {
-            "value": "[variables('publicLBName')]"
-          },
-          "lbFE": {
-            "value": "[variables('lbFE')]"
-          },
-          "rpdNAT": {
-            "value": "[variables('rpdNAT')]"
-          }
-        }
-      }
-    }
-  ],
+    ],
     "outputs": {}
   }
