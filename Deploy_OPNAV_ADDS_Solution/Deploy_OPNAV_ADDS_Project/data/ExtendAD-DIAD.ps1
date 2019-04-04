@@ -12,6 +12,7 @@
         #>
 
 # Extract Scripts
+
 Expand-Archive .\ExportImportAD.zip -Force
 
 $diadscripts = ".\ExportImportAD\ExportImportAD\"
@@ -19,7 +20,7 @@ $diadscripts = ".\ExportImportAD\ExportImportAD\"
 cd $diadscripts
 
 # Import DIAD OUs/GPOs
-powershell -ExecutionPolicy Unrestricted -File ".\ExportImport-AD.ps1" -RestoreAll -restorepolicies -LinkGPOs -Link2016 -LinkDomainPolicies -RedirectComputersContainers -BackupFolder ".\" -SettingsFile ".\settings.xml" -force
+powershell -ExecutionPolicy Unrestricted -File ".\ExportImport-AD.ps1"  -RestoreAll -OverwriteExistingPolicies -ImportADMXs -LinkGPOs -Link2016 -LinkDomainPolicies -RedirectComputersContainers -BackupFolder ".\" -SettingsFile ".\settings.xml" -force
 
 # Wait 30 seconds
 Start-Sleep -Seconds 30
