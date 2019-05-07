@@ -1,0 +1,70 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "VMName": {
+      "type": "string",
+      "metadata": {
+        "description": "The VM name to be promoted"
+      }
+    },
+    "domainName": {
+      "type": "string",
+      "metadata": {
+        "description": "AD DS Domain Name."
+      },
+      "defaultValue": "dc3n.navy.mil"
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the Administrator account that will be used for the domain and VMs. STIGS require that you do not actually name the account ADMINISTRATOR..."
+      },
+      "defaultValue": "labadmin"
+    },
+    "adminPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/[Subscription().subscriptionID]/resourceGroups/mykeyvaultdeploymentrg/providers/Microsoft.KeyVault/vaults/T0-ADDS-KV-01"
+        },
+        "secretName": "DomainAdminPassword"
+      }
+    }
+  },
+  "variables": {
+    "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Deploy_OPNAV_ADDS_Solution/Deploy_OPNAV_ADDS_Project/",
+    "adDC2ModulesURL": "[concat(variables('assetLocation'),'/data/DeployADDS.zip')]",
+    "adDC2ConfigurationFunction": "DeployADDS.ps1\\DeployDC2"
+  },
+  "resources": [
+    {
+      "name": "[concat(parameters('VMName'),'/InstallSecondDomainController')]",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.8",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "modulesUrl": "[variables('adDC2ModulesURL')]",
+          "configurationFunction": "[variables('adDC2ConfigurationFunction')]",
+          "properties": {
+            "domainName": "[parameters('domainName')]",
+            "adminCreds": {
+              "userName": "[parameters('adminUserName')]",
+              "password": "PrivateSettingsRef:adminPassword"
+            }
+          }
+        },
+        "protectedSettings": {
+          "items": {
+            "adminPassword": "[parameters('adminPassword')]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}

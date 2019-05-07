@@ -13,7 +13,7 @@
     "beNSGName": { "type": "string" },
     "feNSGName": { "type": "string" },
     "beSubnetName": { "type": "string" },
-    "feSubnetName": { "type": "string" },
+    "feSubnetName": { "type": "string" }, 
     "beSubnetId": { "type": "string" },
     "feSubnetId": { "type": "string" },
     "sourceClientIP": { "type": "string" }
