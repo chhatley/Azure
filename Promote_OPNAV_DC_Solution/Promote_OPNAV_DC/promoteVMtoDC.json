@@ -28,6 +28,10 @@
     "adDC2ModulesURL": "[concat(variables('assetLocation'),'/data/DeployADDS.zip')]",
     "adDC2ConfigurationFunction": "DeployADDS.ps1\\DeployDC2",
 
+
+    "VmDomainJoin": "[concat(parameters('vmName'),'/joindomain')]",
+    "VmDomainJoinId": "[concat('Microsoft.Resources/deployments/', variables('VmDomainJoin'))]",
+
     "computeApiVersion": "2017-03-30",
     "domainJoinOptions": "3",
     "shortDomainName": "[split(parameters('domainName'),'.')[0]]",
@@ -47,7 +51,7 @@
   },
   "resources": [
     {
-      "name": "[concat(parameters('vmName'),'/joindomain')]",
+      "name": "[variables('VmDomainJoin')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
@@ -73,6 +77,9 @@
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[variables('VmDomainJoinId')]"
+      ],
       "properties": {
         "publisher": "Microsoft.Powershell",
         "type": "DSC",
