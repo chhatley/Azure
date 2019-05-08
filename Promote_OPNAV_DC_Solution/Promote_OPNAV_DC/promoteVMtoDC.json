@@ -39,7 +39,7 @@
     "adminPassword": {
       "reference": {
         "keyVault": {
-          "id": "/subscriptions/', subscription().subscriptionId, '/resourceGroups/mykeyvaultdeploymentrg/providers/Microsoft.KeyVault/vaults/T0-ADDS-KV-01"
+          "id": "/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourceGroups/mykeyvaultdeploymentrg/providers/Microsoft.KeyVault/vaults/T0-ADDS-KV-01"
         },
         "secretName": "DomainAdminPassword"
       }
