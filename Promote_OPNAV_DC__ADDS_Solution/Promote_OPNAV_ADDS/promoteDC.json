@@ -41,7 +41,7 @@
       "type": "string",
       "defaultValue": "[subscription().subscriptionId]",
       "metadata": {
-        "description": "The name of the subscription that contains the keyvault.",
+        "description": "The name of the subscription that contains the keyvault."
       }
     },
     "secretName": {
