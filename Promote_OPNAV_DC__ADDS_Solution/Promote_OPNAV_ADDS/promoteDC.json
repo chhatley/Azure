@@ -2,7 +2,7 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "dc2VMName": {
+    "VMName": {
       "type": "string",
       "metadata": {
         "description": "The VM name of Primary AD"
@@ -10,21 +10,18 @@
     },
     "domainName": {
       "type": "string",
+
       "metadata": {
-        "description": "The domain name"
-      }
+        "description": "AD DS Domain Name."
+      },
+      "defaultValue": "dc3n.navy.mil"
     },
     "adminUsername": {
       "type": "string",
       "metadata": {
         "description": "The name of the Administrator of the new VMs and Domain"
-      }
-    },
-    "adminPassword": {
-      "type": "securestring",
-      "metadata": {
-        "description": "The password for the Administrator account of the new VMs and Domain"
-      }
+      },
+      "defaultValue": "labadmin"
     },
     "assetLocation": {
       "type": "string",
@@ -34,12 +31,21 @@
     }
   },
   "variables": {
-    "adDC2ModulesURL": "[concat(parameters('assetLocation'),'/data/DeployADDS.zip')]",
-    "adDC2ConfigurationFunction": "DeployADDS.ps1\\DeployDC2"
+    "adDCModulesURL": "[concat(variables('assetLocation'),'/DeployADDS.zip')]",
+    "adDCConfigurationFunction": "DeployADDS.ps1\\DeployDC2",
+    "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Promote_OPNAV_DC__ADDS_Solution/Promote_OPNAV_ADDS",
+    "adminPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourceGroups/T0-DIAD-RG/providers/Microsoft.KeyVault/vaults/T0-ADDS-KV-01"
+        },
+        "secretName": "DomainAdminPassword"
+      }
+    }
   },
   "resources": [
     {
-      "name": "[concat(parameters('dc2VMName'),'/InstallSecondDomainController')]",
+      "name": "[concat(parameters('VMName'),'/PromoteDomainController')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
@@ -49,8 +55,8 @@
         "typeHandlerVersion": "2.8",
         "autoUpgradeMinorVersion": true,
         "settings": {
-          "modulesUrl": "[variables('adDC2ModulesURL')]",
-          "configurationFunction": "[variables('adDC2ConfigurationFunction')]",
+          "modulesUrl": "[variables('adDCModulesURL')]",
+          "configurationFunction": "[variables('adDCConfigurationFunction')]",
           "properties": {
             "domainName": "[parameters('domainName')]",
             "adminCreds": {
@@ -61,7 +67,7 @@
         },
         "protectedSettings": {
           "items": {
-            "adminPassword": "[parameters('adminPassword')]"
+            "adminPassword": "[variables('adminPassword')]"
           }
         }
       }
