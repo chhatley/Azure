@@ -31,12 +31,11 @@
     "joinUser": "[concat(variables('shortDomainName'), '\\', parameters('adminUsername'))]",
     "joinUserDN": "[concat(parameters('domainName'), '\\', parameters('adminUsername'))]",
     "joinuserUPN": "[concat(parameters('adminUsername'),'@',parameters('domainName'))]",
-    "adDC2ModulesURL": "[concat(variables('assetLocation'),'/data/DeployADDS.zip')]",
+    "adDC2ModulesURL": "https://github.com/chhatley/Azure/blob/master/Promote_OPNAV_DC__ADDS_Solution/Promote_OPNAV_ADDS/Data/DeployADDS.zip",
     "adDC2ConfigurationFunction": "DeployADDS.ps1\\DeployDC2",
-    "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Promote_OPNAV_DC__ADDS_Solution/Promote_OPNAV_ADDS/",
 
     "VmDomainJoin": "[concat(parameters('vmName'),'/joindomain')]",
-    "VmDomainJoinId": "[concat('Microsoft.Resources/deployments/', variables('VmDomainJoin'),'/joindomain')]",
+    "VmDomainJoinId": "[concat('Microsoft.Resources/deployments/', variables('VmDomainJoin'))]",
 
     "adminPassword": {
       "reference": {
@@ -49,35 +48,10 @@
   },
   "resources": [
     {
-      "name": "[concat(variables('vmdomainjoin'),'/joindomain')]",
+      "name": "[concat(parameters('VMName'),'/PromoteDC')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
-      "properties": {
-        "publisher": "Microsoft.Compute",
-        "type": "JsonADDomainExtension",
-        "typeHandlerVersion": "1.3",
-        "autoUpgradeMinorVersion": true,
-        "settings": {
-          "Name": "[parameters('domainName')]",
-          "OUPath": "",
-          "User": "[variables('joinUserDN')]",
-          "Restart": "true",
-          "Options": "[variables('domainJoinOptions')]"
-        },
-        "protectedSettings": {
-          "Password": "[variables('adminPassword')]"
-        }
-      }
-    },
-    {
-      "name": "[concat(parameters('VMName'),'/PromoteDomainController')]",
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "location": "[resourceGroup().location]",
-      "apiVersion": "2015-06-15",
-      "dependsOn": [
-        "[variables('VmDomainJoinId')]"
-      ],
       "properties": {
         "publisher": "Microsoft.Powershell",
         "type": "DSC",
