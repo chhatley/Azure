@@ -31,8 +31,8 @@
     "joinUser": "[concat(variables('shortDomainName'), '\\', parameters('adminUsername'))]",
     "joinUserDN": "[concat(parameters('domainName'), '\\', parameters('adminUsername'))]",
     "joinuserUPN": "[concat(parameters('adminUsername'),'@',parameters('domainName'))]",
-    "adDC2ModulesURL": "https://github.com/chhatley/Azure/blob/master/Promote_OPNAV_DC__ADDS_Solution/Promote_OPNAV_ADDS/Data/DeployADDS.zip",
-    "adDC2ConfigurationFunction": "DeployADDS.ps1\\DeployDC2",
+    "adDC2ModulesURL": "https://github.com/chhatley/Azure/blob/master/Promote_OPNAV_DC__ADDS_Solution/Promote_OPNAV_ADDS/DeployADDS.zip",
+    "adConfigurationFunction": "DeployADDS.ps1\\DeployDC2",
 
     "VmDomainJoin": "[concat(parameters('vmName'),'/joindomain')]",
     "VmDomainJoinId": "[concat('Microsoft.Resources/deployments/', variables('VmDomainJoin'))]",
@@ -47,8 +47,9 @@
     }
   },
   "resources": [
+  
     {
-      "name": "[concat(parameters('VMName'),'/PromoteDC')]",
+      "name": "[concat(parameters('VMName'),'/InstallSecondDomainController')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
@@ -59,7 +60,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "modulesUrl": "[variables('adDC2ModulesURL')]",
-          "configurationFunction": "[variables('adDC2ConfigurationFunction')]",
+          "configurationFunction": "[variables('adConfigurationFunction')]",
           "properties": {
             "domainName": "[parameters('domainName')]",
             "adminCreds": {
