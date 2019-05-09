@@ -5,7 +5,7 @@
     "VMName": {
       "type": "string",
       "metadata": {
-        "description": "The VM name of Primary AD"
+        "description": "Name of the VM to be Promoted"
       }
     },
     "domainName": {
@@ -22,46 +22,66 @@
         "description": "The name of the Administrator of the new VMs and Domain"
       },
       "defaultValue": "labadmin"
+    },
+    "keyVaultName": {
+      "type": "string",
+      "metadata": {
+        "description": "Enter the Name for an existing Key Vault containing the secret to be used to logon to the Virtual Server(s)"
+      },
+        "defaultValue": "T0-ADDS-KV-01"
+    },
+    "keyVaultResourceGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Specify the existing Resource Group where the Key Vault resides."
+        },
+      "defaultValue": "T0-DIAD-RG"
+    },
+    "secretName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specify the secret to obtain from the Key Vault"
+        },
+      "defaultValue": "DomainAdminPassword"
     }
   },
   "variables": {
-    "adDCModulesURL": "[concat(variables('assetLocation'),'/DeployADDS.zip')]",
-    "adDCConfigurationFunction": "DeployADDS.ps1\\DeployDC2",
     "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Promote_OPNAV_DC__ADDS_Solution/Promote_OPNAV_ADDS",
-    "adminPassword": {
-      "reference": {
-        "keyVault": {
-          "id": "/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourceGroups/T0-DIAD-RG/providers/Microsoft.KeyVault/vaults/T0-ADDS-KV-01"
-        },
-        "secretName": "DomainAdminPassword"
-      }
+    "configureADTemplateURI": "[concat(variables('assetLocation'),'/configureADDS.json')]",
+   
+    
+    "keyVault-settings": {
+      "name": "[parameters('keyVaultName')]",
+      "existingRg": "[parameters('keyVaultResourceGroup')]",
+      "secret": "[parameters('secretName')]"
     }
   },
   "resources": [
     {
-      "name": "[concat(parameters('VMName'),'/PromoteDomainController')]",
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "location": "[resourceGroup().location]",
-      "apiVersion": "2015-06-15",
+      "name": "PromoteDomainController",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
       "properties": {
-        "publisher": "Microsoft.Powershell",
-        "type": "DSC",
-        "typeHandlerVersion": "2.8",
-        "autoUpgradeMinorVersion": true,
-        "settings": {
-          "modulesUrl": "[variables('adDCModulesURL')]",
-          "configurationFunction": "[variables('adDCConfigurationFunction')]",
-          "properties": {
-            "domainName": "[parameters('domainName')]",
-            "adminCreds": {
-              "userName": "[parameters('adminUserName')]",
-              "password": "PrivateSettingsRef:adminPassword"
-            }
-          }
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('configureADTemplateURI')]",
+          "contentVersion": "1.0.0.0"
         },
-        "protectedSettings": {
-          "items": {
-            "adminPassword": "[variables('adminPassword')]"
+        "parameters": {
+          "VMName": {
+            "value": "[parameters('VMName')]"
+          },
+          "domainName": {
+            "value": "[parameters('domainName')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "keyVault-settings": {
+            "value": "[variables('keyVault-settings')]"
+          },
+          "assetLocation": {
+            "value": "[variables('assetLocation')]"
           }
         }
       }
