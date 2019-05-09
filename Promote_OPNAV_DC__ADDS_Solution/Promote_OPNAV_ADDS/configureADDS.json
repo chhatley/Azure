@@ -41,12 +41,12 @@
       "reference": {
         "keyVault": {
           "id": "[variables('ids').keyVault]"
+        },
+        "secretName": "[parameters('keyVault-settings').secret"
         }
-      }
     },
-    "secretName": "[parameters('keyVault-settings').secret",
-    "adDCModulesURL": "[concat(parameters('assetLocation'),'/DeployADDS.zip')]",
-    "adDCConfigurationFunction": "DeployADDS.ps1\\DeployDC2"
+      "adDCModulesURL": "[concat(parameters('assetLocation'),'/DeployADDS.zip')]",
+      "adDCConfigurationFunction": "DeployADDS.ps1\\DeployDC2"
     },
     "resources": [
       {
@@ -55,23 +55,23 @@
         "location": "[resourceGroup().location]",
         "apiVersion": "2015-06-15",
         "properties": {
-        "publisher": "Microsoft.Powershell",
-        "type": "DSC",
-        "typeHandlerVersion": "2.8",
-        "autoUpgradeMinorVersion": true,
-        "settings": {
-        "modulesUrl": "[variables('adDCModulesURL')]",
-        "configurationFunction": "[variables('adDCConfigurationFunction')]",
-        "properties": {
-          "domainName": "[parameters('domainName')]",
-          "adminCreds": {
-            "userName": "[parameters('adminUserName')]",
-            "adminPassword": "[variables('adminPassword')]"
+          "publisher": "Microsoft.Powershell",
+          "type": "DSC",
+          "typeHandlerVersion": "2.8",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+            "modulesUrl": "[variables('adDCModulesURL')]",
+            "configurationFunction": "[variables('adDCConfigurationFunction')]",
+            "properties": {
+              "domainName": "[parameters('domainName')]",
+              "adminCreds": {
+                "userName": "[parameters('adminUserName')]",
+                "adminPassword": "[variables('adminPassword')]"
+              }
             }
           }
         }
       }
-    }
-   ],
-   "outputs": {}
-    }
+    ],
+    "outputs": {}
+  }
