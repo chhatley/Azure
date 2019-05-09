@@ -25,7 +25,7 @@
   <ItemGroup>
     <Content Include="azuredeploy.json" />
     <Content Include="azuredeploy.parameters.json" />
-    <None Include="Data\DeployADDS.zip" />
+    <None Include="DeployADDS.zip" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
