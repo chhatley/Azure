@@ -90,6 +90,14 @@
           },
           "assetLocation": {
             "value": "[variables('assetLocation')]"
+          },
+          "adminPassword": {
+            "reference": {
+              "keyVault": {
+                "id": "[resourceId(parameters('vaultSubscription'), parameters('keyVaultExistingResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+              },
+              "secretName": "[parameters('secretName')]"
+            }
           }
         }
       }
