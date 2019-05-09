@@ -49,20 +49,20 @@
   "variables": {
     "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Promote_OPNAV_DC__ADDS_Solution/Promote_OPNAV_ADDS",
     "configureADTemplateURI": "[concat(variables('assetLocation'),'/configureADDS.json')]",
-    "adDCModulesURL": "[concat(variables('assetLocation'),'/DeployADDS.zip')]",
+    "adDCModulesURL": "https://raw.githubusercontent.com/chhatley/Azure/master/Promote_OPNAV_DC__ADDS_Solution/Promote_OPNAV_ADDS/DeployADDS.zip",
     "adDCConfigurationFunction": "DeployADDS.ps1\\DeployDC2",
 
     "vaultSubscription": "[subscription().subscriptionId]",
 
     "adminPassword": {
-        "reference": {
-          "keyVault": {
-            "id": "[resourceId(variables('vaultSubscription'), parameters('keyVaultExistingResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
-          },
-          "secretName": "[parameters('secretName')]"
-        }
+      "reference": {
+        "keyVault": {
+          "id": "[resourceId(variables('vaultSubscription'), parameters('keyVaultExistingResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+        },
+        "secretName": "[parameters('secretName')]"
       }
-    },
+    }
+  },
     "resources": [
       {
         "name": "[concat(parameters('VMName'),'/PromotetoDomainController')]",
