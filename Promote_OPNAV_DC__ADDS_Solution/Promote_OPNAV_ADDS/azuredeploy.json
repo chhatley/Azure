@@ -35,6 +35,9 @@
     "adDC2ConfigurationFunction": "DeployADDS.ps1\\DeployDC2",
     "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Promote_OPNAV_DC__ADDS_Solution/Promote_OPNAV_ADDS/",
 
+    "VmDomainJoin": "[concat(parameters('vmName'),'/joindomain')]",
+    "VmDomainJoinId": "[concat('Microsoft.Resources/deployments/', variables('VmDomainJoin'))]",
+
     "adminPassword": {
       "reference": {
         "keyVault": {
@@ -46,13 +49,10 @@
   },
   "resources": [
     {
-      "name": "[concat(parameters('vmName'),'/joindomain')]",
+      "name": "[variables('VmDomainJoin')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
-      "dependsOn": [
-        "[resourceId('Microsoft.Compute/virtualMachines',parameters('vmName'))]"
-      ],
       "properties": {
         "publisher": "Microsoft.Compute",
         "type": "JsonADDomainExtension",
@@ -75,6 +75,9 @@
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[variables('VmDomainJoinId')]"
+      ],
       "properties": {
         "publisher": "Microsoft.Powershell",
         "type": "DSC",
