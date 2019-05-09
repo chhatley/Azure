@@ -1,7 +1,6 @@
 ﻿{
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-      "contentVersion": "1.0.0.0",
     "parameters": {
       "VMName": {
         "type": "string",
@@ -38,13 +37,6 @@
         },
         "defaultValue": "T0-DIAD-RG"
       },
-      "vaultSubscription": {
-        "type": "string",
-        "defaultValue": "[subscription().subscriptionId]",
-        "metadata": {
-          "description": "The name of the subscription that contains the keyvault."
-        }
-      },
       "secretName": {
         "type": "string",
         "metadata": {
@@ -65,7 +57,7 @@
     "adminPassword": {
         "reference": {
           "keyVault": {
-            "id": "[resourceId(parameters('vaultSubscription'), parameters('keyVaultExistingResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+            "id": "[resourceId(variables('vaultSubscription'), parameters('keyVaultExistingResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
           },
           "secretName": "[parameters('secretName')]"
         }

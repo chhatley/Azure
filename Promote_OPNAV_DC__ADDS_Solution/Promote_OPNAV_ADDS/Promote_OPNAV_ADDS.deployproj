@@ -30,7 +30,9 @@
       <Visible>False</Visible>
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
+    <None Include="promoteDC - Copy.json" />
     <None Include="promoteDC.json" />
+    <None Include="promoteDC1.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
