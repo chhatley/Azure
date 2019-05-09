@@ -28,34 +28,45 @@
       "metadata": {
         "description": "Enter the Name for an existing Key Vault containing the secret to be used to logon to the Virtual Server(s)"
       },
-        "defaultValue": "T0-ADDS-KV-01"
+      "defaultValue": "T0-ADDS-KV-01"
     },
     "keyVaultExistingResourceGroup": {
       "type": "string",
       "metadata": {
         "description": "Specify the existing Resource Group where the Key Vault resides."
-        },
+      },
       "defaultValue": "T0-DIAD-RG"
+    },
+    "vaultSubscription": {
+      "type": "string",
+      "defaultValue": "[subscription().subscriptionId]",
+      "metadata": {
+        "description": "The name of the subscription that contains the keyvault.",
+      }
     },
     "secretName": {
       "type": "string",
       "metadata": {
         "description": "Specify the secret to obtain from the Key Vault"
-        },
+      },
       "defaultValue": "DomainAdminPassword"
     }
   },
+  
   "variables": {
     "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Promote_OPNAV_DC__ADDS_Solution/Promote_OPNAV_ADDS",
     "configureADTemplateURI": "[concat(variables('assetLocation'),'/configureADDS.json')]",
-   
-    
-    "keyVault-settings": {
-      "name": "[parameters('keyVaultName')]",
-      "existingRg": "[parameters('keyVaultExistingResourceGroup')]",
-      "secret": "[parameters('secretName')]"
+
+
+    "adminPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "[resourceId(parameters('vaultSubscription'), parameters('keyVaultExistingResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+        },
+        "secretName": "[parameters('secretName')]"
+      }
     }
-  },
+},
   "resources": [
     {
       "name": "PromoteDomainController",
@@ -78,7 +89,7 @@
             "value": "[parameters('adminUsername')]"
           },
           "keyVault-settings": {
-            "value": "[variables('keyVault-settings')]"
+            "value": "[variables('adminPassword')]"
           },
           "assetLocation": {
             "value": "[variables('assetLocation')]"
@@ -88,5 +99,5 @@
     }
   ],
   "outputs": {}
-}
+  }
 

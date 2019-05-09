@@ -20,31 +20,20 @@
         "description": "The name of the Administrator of the new VMs and Domain"
       }
     },
-    "keyVault-settings": {
-      "type": "object",
+    "adminPassword": {
+      "type": "string",
       "metadata": {
-        "description": "These are settings for the Key Vault"
+        "description": "The name of the Administrator of the new VMs and Domain"
       }
     },
-      "assetLocation": {
-        "type": "string",
-        "metadata": {
-          "description": "The location of resources that the script is dependent on such as linked templates and DSC modules"
-        }
+    "assetLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "The location of resources that the script is dependent on such as linked templates and DSC modules"
       }
+    }
   },
   "variables": {
-    "ids": {
-      "keyVault": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('keyVault-settings').existingRg, '/providers/Microsoft.KeyVault/vaults/', parameters('keyVault-settings').name)]"
-    },
-    "adminPassword": {
-      "reference": {
-        "keyVault": {
-          "id": "[variables('ids').keyVault]"
-        },
-        "secretName": "[parameters('keyVault-settings').secret"
-        }
-    },
       "adDCModulesURL": "[concat(parameters('assetLocation'),'/DeployADDS.zip')]",
       "adDCConfigurationFunction": "DeployADDS.ps1\\DeployDC2"
     },
@@ -66,7 +55,7 @@
               "domainName": "[parameters('domainName')]",
               "adminCreds": {
                 "userName": "[parameters('adminUserName')]",
-                "adminPassword": "[variables('adminPassword')]"
+                "adminPassword": "[parameters('adminPassword')]"
               }
             }
           }
