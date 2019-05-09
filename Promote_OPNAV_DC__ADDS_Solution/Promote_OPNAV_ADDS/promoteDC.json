@@ -22,7 +22,7 @@
         "description": "The name of the Administrator of the new VMs and Domain"
       },
       "defaultValue": "labadmin"
-    },
+    }
   },
   "variables": {
     "adDCModulesURL": "[concat(variables('assetLocation'),'/DeployADDS.zip')]",
