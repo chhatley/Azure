@@ -88,9 +88,6 @@
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
           },
-          "keyVault-settings": {
-            "value": "[variables('adminPassword')]"
-          },
           "assetLocation": {
             "value": "[variables('assetLocation')]"
           }
