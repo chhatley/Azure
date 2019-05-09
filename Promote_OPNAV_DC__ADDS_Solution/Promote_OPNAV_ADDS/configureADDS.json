@@ -37,40 +37,41 @@
     "ids": {
       "keyVault": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('keyVault-settings').existingRg, '/providers/Microsoft.KeyVault/vaults/', parameters('keyVault-settings').name)]"
     },
+    "adminPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "[variables('ids').keyVault]"
+        }
+      }
+    },
+    "secretName": "[parameters('keyVault-settings').secret",
     "adDCModulesURL": "[concat(parameters('assetLocation'),'/DeployADDS.zip')]",
     "adDCConfigurationFunction": "DeployADDS.ps1\\DeployDC2"
-  },
-  "resources": [
-    {
-      "name": "[concat(parameters('VMName'),'/PromotetoDomainController')]",
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "location": "[resourceGroup().location]",
-      "apiVersion": "2015-06-15",
-      "properties": {
+    },
+    "resources": [
+      {
+        "name": "[concat(parameters('VMName'),'/PromotetoDomainController')]",
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "location": "[resourceGroup().location]",
+        "apiVersion": "2015-06-15",
+        "properties": {
         "publisher": "Microsoft.Powershell",
         "type": "DSC",
         "typeHandlerVersion": "2.8",
         "autoUpgradeMinorVersion": true,
         "settings": {
-          "modulesUrl": "[variables('adDCModulesURL')]",
-          "configurationFunction": "[variables('adDCConfigurationFunction')]",
-          "properties": {
-            "domainName": "[parameters('domainName')]",
-            "adminCreds": {
-              "userName": "[parameters('adminUserName')]",
-              "adminPassword": {
-                "reference": {
-                  "keyVault": {
-                    "id": "[variables('ids').keyVault]"
-                     },
-                    "secretName": "[parameters('keyVault-settings').secret"
-                }
-              }
+        "modulesUrl": "[variables('adDCModulesURL')]",
+        "configurationFunction": "[variables('adDCConfigurationFunction')]",
+        "properties": {
+          "domainName": "[parameters('domainName')]",
+          "adminCreds": {
+            "userName": "[parameters('adminUserName')]",
+            "adminPassword": "[variables('adminPassword')]"
             }
           }
         }
       }
     }
-  ],
-  "outputs": {}
-  }
+   ],
+   "outputs": {}
+    }
