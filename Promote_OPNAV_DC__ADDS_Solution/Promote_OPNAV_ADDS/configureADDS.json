@@ -62,8 +62,8 @@
                 "reference": {
                   "keyVault": {
                     "id": "[variables('ids').keyVault]"
-                  },
-                  "secretName": "[parameters('keyVault-settings').secret"
+                     },
+                    "secretName": "[parameters('keyVault-settings').secret"
                 }
               }
             }
