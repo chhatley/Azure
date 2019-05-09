@@ -30,7 +30,7 @@
       },
         "defaultValue": "T0-ADDS-KV-01"
     },
-    "keyVaultResourceGroup": {
+    "keyVaultExistingResourceGroup": {
       "type": "string",
       "metadata": {
         "description": "Specify the existing Resource Group where the Key Vault resides."
@@ -52,7 +52,7 @@
     
     "keyVault-settings": {
       "name": "[parameters('keyVaultName')]",
-      "existingRg": "[parameters('keyVaultResourceGroup')]",
+      "existingRg": "[parameters('keyVaultExistingResourceGroup')]",
       "secret": "[parameters('secretName')]"
     }
   },
