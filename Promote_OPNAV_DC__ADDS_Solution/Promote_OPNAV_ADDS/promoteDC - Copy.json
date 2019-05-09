@@ -54,14 +54,15 @@
       }
     },
 
-    "variables": {
-      "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Promote_OPNAV_DC__ADDS_Solution/Promote_OPNAV_ADDS",
-      "configureADTemplateURI": "[concat(variables('assetLocation'),'/configureADDS.json')]",
-      "adDCModulesURL": "[concat(variables('assetLocation'),'/DeployADDS.zip')]",
-      "adDCConfigurationFunction": "DeployADDS.ps1\\DeployDC2",
+  "variables": {
+    "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Promote_OPNAV_DC__ADDS_Solution/Promote_OPNAV_ADDS",
+    "configureADTemplateURI": "[concat(variables('assetLocation'),'/configureADDS.json')]",
+    "adDCModulesURL": "[concat(variables('assetLocation'),'/DeployADDS.zip')]",
+    "adDCConfigurationFunction": "DeployADDS.ps1\\DeployDC2",
 
+    "vaultSubscription": "[subscription().subscriptionId]",
 
-      "adminPassword": {
+    "adminPassword": {
         "reference": {
           "keyVault": {
             "id": "[resourceId(parameters('vaultSubscription'), parameters('keyVaultExistingResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
