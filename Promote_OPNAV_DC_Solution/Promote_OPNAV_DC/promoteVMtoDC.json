@@ -2,43 +2,48 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "adminUsername": {
+    "VMName": {
       "type": "string",
       "metadata": {
-        "description": "The name of the Administrator of the new VMs and Domain"
-      },
-      "defaultValue": "labadmin"
+        "description": "The VM name to be promoted"
+      }
     },
     "domainName": {
       "type": "string",
-
       "metadata": {
         "description": "AD DS Domain Name."
       },
       "defaultValue": "dc3n.navy.mil"
     },
-    "vmName": {
+    "adminUsername": {
       "type": "string",
       "metadata": {
-        "description": "The VM Name"
-      }
+        "description": "The name of the Administrator account that will be used for the domain and VMs. STIGS require that you do not actually name the account ADMINISTRATOR..."
+      },
+      "defaultValue": "labadmin"
     }
   },
   "variables": {
+    "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Deploy_OPNAV_ADDS_Solution/Deploy_OPNAV_ADDS_Project/",
+    "adDC2ModulesURL": "[concat(variables('assetLocation'),'/data/DeployADDS.zip')]",
+    "adDC2ConfigurationFunction": "DeployADDS.ps1\\DeployDC2",
+
+
+    "VmDomainJoin": "[concat(parameters('vmName'),'/joindomain')]",
+    "VmDomainJoinId": "[concat('Microsoft.Resources/deployments/', variables('VmDomainJoin'))]",
+
+    "computeApiVersion": "2017-03-30",
     "domainJoinOptions": "3",
     "shortDomainName": "[split(parameters('domainName'),'.')[0]]",
     "ouPath": "",
     "joinUser": "[concat(variables('shortDomainName'), '\\', parameters('adminUsername'))]",
     "joinUserDN": "[concat(parameters('domainName'), '\\', parameters('adminUsername'))]",
     "joinuserUPN": "[concat(parameters('adminUsername'),'@',parameters('domainName'))]",
-    "adDC2ModulesURL": "[concat(variables('assetLocation'),'/data/DeployADDS.zip')]",
-    "adDC2ConfigurationFunction": "DeployADDS.ps1\\DeployDC2",
-    "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Promote_OPNAV_DC__ADDS_Solution/Promote_OPNAV_ADDS/",
 
     "adminPassword": {
       "reference": {
         "keyVault": {
-          "id": "/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourceGroups/T0-DIAD-RG/providers/Microsoft.KeyVault/vaults/T0-ADDS-KV-01"
+          "id": "/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourceGroups/mykeyvaultdeploymentrg/providers/Microsoft.KeyVault/vaults/T0-ADDS-KV-01"
         },
         "secretName": "DomainAdminPassword"
       }
@@ -46,13 +51,10 @@
   },
   "resources": [
     {
-      "name": "[concat(parameters('vmName'),'/joindomain')]",
+      "name": "[variables('VmDomainJoin')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
-      "dependsOn": [
-        "[resourceId('Microsoft.Compute/virtualMachines',parameters('vmName'))]"
-      ],
       "properties": {
         "publisher": "Microsoft.Compute",
         "type": "JsonADDomainExtension",
@@ -66,15 +68,18 @@
           "Options": "[variables('domainJoinOptions')]"
         },
         "protectedSettings": {
-          "Password": "[variables('adminPassword')]"
+          "Password": "[Variables('adminPassword')]"
         }
       }
     },
     {
-      "name": "[concat(parameters('VMName'),'/PromoteDomainController')]",
+      "name": "[concat(parameters('VMName'),'/PromoeDomainController')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[variables('VmDomainJoinId')]"
+      ],
       "properties": {
         "publisher": "Microsoft.Powershell",
         "type": "DSC",
@@ -99,5 +104,5 @@
       }
     }
   ],
-    "outputs": {}
-  }
+  "outputs": {}
+}
