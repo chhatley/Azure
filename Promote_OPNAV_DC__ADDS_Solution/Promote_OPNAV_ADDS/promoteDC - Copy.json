@@ -57,9 +57,9 @@
     "adminPassword": {
       "reference": {
         "keyVault": {
-          "id": "[resourceId(variables('vaultSubscription'), parameters('keyVaultExistingResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+          "id": "/subscriptions/508ee3b5-9a3f-4e79-985e-f4c0c4972af6/resourceGroups/T0-DIAD-RG/providers/Microsoft.KeyVault/vaults/T0-ADDS-KV-01"
         },
-        "secretName": "[parameters('secretName')]"
+        "secretName": "DomainAdminPassword"
       }
     }
   },
