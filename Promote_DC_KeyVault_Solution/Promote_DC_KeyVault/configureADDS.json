@@ -37,30 +37,35 @@
       "adDCModulesURL": "[concat(parameters('assetLocation'),'/DeployADDS.zip')]",
       "adDCConfigurationFunction": "DeployADDS.ps1\\DeployDC2"
     },
-    "resources": [
-      {
-        "name": "[concat(parameters('VMName'),'/PromotetoDomainController')]",
-        "type": "Microsoft.Compute/virtualMachines/extensions",
-        "location": "[resourceGroup().location]",
-        "apiVersion": "2015-06-15",
-        "properties": {
-          "publisher": "Microsoft.Powershell",
-          "type": "DSC",
-          "typeHandlerVersion": "2.8",
-          "autoUpgradeMinorVersion": true,
-          "settings": {
-            "modulesUrl": "[variables('adDCModulesURL')]",
-            "configurationFunction": "[variables('adDCConfigurationFunction')]",
-            "properties": {
-              "domainName": "[parameters('domainName')]",
-              "adminCreds": {
-                "userName": "[parameters('adminUserName')]",
-                "adminPassword": "[parameters('adminPassword')]"
-              }
+  "resources": [
+    {
+      "name": "[concat(parameters('VMName'),'/PromoteToDomainController')]",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.8",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "modulesUrl": "[variables('adDCModulesURL')]",
+          "configurationFunction": "[variables('adDCConfigurationFunction')]",
+          "properties": {
+            "domainName": "[parameters('domainName')]",
+            "adminCreds": {
+              "userName": "[parameters('adminUserName')]",
+              "password": "PrivateSettingsRef:adminPassword"
             }
+          }
+        },
+        "protectedSettings": {
+          "items": {
+            "adminPassword": "[parameters('adminPassword')]"
           }
         }
       }
-    ],
+    }
+  ],
     "outputs": {}
   }

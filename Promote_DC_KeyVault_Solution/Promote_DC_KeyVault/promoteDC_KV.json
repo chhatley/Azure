@@ -1,0 +1,93 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "VMName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the VM to be Promoted"
+      }
+    },
+    "domainName": {
+      "type": "string",
+
+      "metadata": {
+        "description": "AD DS Domain Name."
+      },
+      "defaultValue": "dc3n.navy.mil"
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the Administrator of the new VMs and Domain"
+      },
+      "defaultValue": "labadmin"
+    },
+    "VaultName": {
+      "type": "string",
+      "metadata": {
+        "description": "Enter the Name for an existing Key Vault containing the secret to be used to logon to the Virtual Server(s)"
+      },
+      "defaultValue": "T0-ADDS-KV-01"
+    },
+    "VaultResourceGroupName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specify the existing Resource Group where the Key Vault resides."
+      },
+      "defaultValue": "T0-DIAD-RG"
+    },
+    "secretName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specify the secret to obtain from the Key Vault"
+      },
+      "defaultValue": "DomainAdminPassword"
+    }
+  },
+
+  "variables": {
+    "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Promote_OPNAV_DC__ADDS_Solution/Promote_OPNAV_ADDS",
+    "configureADDSTemplateURI": "[concat(variables('assetLocation'),'/configureADDS.json')]",
+    "vaultSubscription": "[subscription().subscriptionId]"
+
+  },
+  "resources": [
+    {
+      "name": "PromoteDC",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('configureADDSTemplateURI')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "dc2VMName": {
+            "value": "[parameters('VMName')]"
+          },
+          "domainName": {
+            "value": "[parameters('domainName')]"
+          },
+          "assetLocation": {
+            "value": "[variables('assetLocation')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+                    "adminPassword": {
+                        "reference": {
+                            "keyVault": {
+                                "id": "[resourceId(variables('vaultSubscription'), parameters('vaultResourceGroupName'), 'Microsoft.KeyVault/vaults', parameters('vaultName'))]"
+                            },
+                            "secretName": "[parameters('secretName')]"
+                        }
+                    }
+                }
+            }
+        }
+  ],
+      "outputs": {}
+  }
+
