@@ -55,7 +55,7 @@
 
   "variables": {
     "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Promote_DC_KeyVault_Solution/Promote_DC_KeyVault",
-    "configureADDSTemplateURI": "[concat(variables('assetLocation'),'/configureADDS.json')]",
+    "configureADDSTemplateURI": "[concat(variables('assetLocation'),'/configureADDS.json')]"
 
   },
   "resources": [
