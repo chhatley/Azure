@@ -37,13 +37,6 @@
       },
       "defaultValue": "ADDSTest"
     },
-    "vaultSubscription": {
-      "type": "string",
-      "defaultValue": "[subscription().subscriptionId]",
-      "metadata": {
-        "description": "The name of the subscription that contains the keyvault."
-      }
-    },
     "secretName": {
       "type": "string",
       "metadata": {
@@ -55,7 +48,8 @@
 
   "variables": {
     "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Promote_DC_KeyVault_Solution/Promote_DC_KeyVault",
-    "configureADDSTemplateURI": "[concat(variables('assetLocation'),'/configureADDS.json')]"
+    "configureADDSTemplateURI": "[concat(variables('assetLocation'),'/configureADDS.json')]",
+    "vaultSubscription": "[subscription().subscriptionId]"
 
   },
   "resources": [
@@ -85,7 +79,7 @@
                     "adminPassword": {
                         "reference": {
                             "keyVault": {
-                                "id": "[resourceId(parameters('vaultSubscription'), parameters('vaultResourceGroupName'), 'Microsoft.KeyVault/vaults', parameters('vaultName'))]"
+                                "id": "[resourceId(variables('vaultSubscription'), parameters('vaultResourceGroupName'), 'Microsoft.KeyVault/vaults', parameters('vaultName'))]"
                             },
                             "secretName": "[parameters('secretName')]"
                         }
