@@ -47,7 +47,7 @@
   },
 
   "variables": {
-    "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Promote_OPNAV_DC__ADDS_Solution/Promote_OPNAV_ADDS",
+    "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Promote_DC_KeyVault_Solution/Promote_DC_KeyVault",
     "configureADDSTemplateURI": "[concat(variables('assetLocation'),'/configureADDS.json')]",
     "vaultSubscription": "[subscription().subscriptionId]"
 
