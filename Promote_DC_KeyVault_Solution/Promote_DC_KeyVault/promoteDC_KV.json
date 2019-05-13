@@ -64,7 +64,7 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "dc2VMName": {
+          "VMName": {
             "value": "[parameters('VMName')]"
           },
           "domainName": {
