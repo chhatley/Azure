@@ -28,14 +28,21 @@
       "metadata": {
         "description": "Enter the Name for an existing Key Vault containing the secret to be used to logon to the Virtual Server(s)"
       },
-      "defaultValue": "T0-ADDS-KV-01"
+      "defaultValue": "addstestkv"
     },
     "VaultResourceGroupName": {
       "type": "string",
       "metadata": {
         "description": "Specify the existing Resource Group where the Key Vault resides."
       },
-      "defaultValue": "T0-DIAD-RG"
+      "defaultValue": "ADDSTest"
+    },
+    "vaultSubscription": {
+      "type": "string",
+      "defaultValue": "[subscription().subscriptionId]",
+      "metadata": {
+        "description": "The name of the subscription that contains the keyvault."
+      }
     },
     "secretName": {
       "type": "string",
@@ -49,7 +56,6 @@
   "variables": {
     "assetLocation": "https://raw.githubusercontent.com/chhatley/Azure/master/Promote_DC_KeyVault_Solution/Promote_DC_KeyVault",
     "configureADDSTemplateURI": "[concat(variables('assetLocation'),'/configureADDS.json')]",
-    "vaultSubscription": "[subscription().subscriptionId]"
 
   },
   "resources": [
@@ -79,7 +85,7 @@
                     "adminPassword": {
                         "reference": {
                             "keyVault": {
-                                "id": "[resourceId(variables('vaultSubscription'), parameters('vaultResourceGroupName'), 'Microsoft.KeyVault/vaults', parameters('vaultName'))]"
+                                "id": "[resourceId(parameters('vaultSubscription'), parameters('vaultResourceGroupName'), 'Microsoft.KeyVault/vaults', parameters('vaultName'))]"
                             },
                             "secretName": "[parameters('secretName')]"
                         }
