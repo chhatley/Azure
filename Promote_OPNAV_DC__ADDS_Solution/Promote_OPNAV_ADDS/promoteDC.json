@@ -65,7 +65,7 @@
       {
         "name": "[concat(parameters('VMName'),'/PromotetoDomainController')]",
         "type": "Microsoft.Compute/virtualMachines/extensions",
-        "location": "usgovvirginia",
+        "location": "[resourceGroup().location]",
         "apiVersion": "2015-06-15",
         "properties": {
           "publisher": "Microsoft.Powershell",
